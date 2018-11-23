@@ -1,0 +1,16 @@
+server:
+  port: 8081
+#  servlet:
+#    session:
+#      timeout: 10
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://###:3306/security?useSSL=false
+    username: ###
+    password: ###
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
