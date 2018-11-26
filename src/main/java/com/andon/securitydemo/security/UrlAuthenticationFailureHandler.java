@@ -1,6 +1,5 @@
-package com.andon.securitydemo.security.config;
+package com.andon.securitydemo.security;
 
-import com.andon.securitydemo.security.bean.UrlResponse;
 import com.andon.securitydemo.util.JsonUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

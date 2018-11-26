@@ -1,4 +1,4 @@
-package com.andon.securitydemo.security.config;
+package com.andon.securitydemo.security;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

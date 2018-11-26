@@ -1,4 +1,4 @@
-package com.andon.securitydemo.security.bean;
+package com.andon.securitydemo.security;
 
 import java.io.Serializable;
 

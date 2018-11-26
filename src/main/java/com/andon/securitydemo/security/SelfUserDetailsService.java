@@ -1,6 +1,5 @@
-package com.andon.securitydemo.security.config;
+package com.andon.securitydemo.security;
 
-import com.andon.securitydemo.security.bean.SelfUserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
