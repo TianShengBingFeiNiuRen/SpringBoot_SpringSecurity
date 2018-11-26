@@ -14,19 +14,19 @@ import javax.annotation.Resource;
 public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private UrlAuthenticationEntryPoint authenticationEntryPoint; //未登录时
+    private UrlAuthenticationEntryPoint authenticationEntryPoint; //自定义未登录时JSON数据
 
     @Resource
-    private UrlAuthenticationSuccessHandler authenticationSuccessHandler; //登录成功
+    private UrlAuthenticationSuccessHandler authenticationSuccessHandler; //自定义登录成功处理器
 
     @Resource
-    private UrlAuthenticationFailureHandler authenticationFailureHandler; //登录失败
+    private UrlAuthenticationFailureHandler authenticationFailureHandler; //自定义登录失败处理器
 
     @Resource
-    private UrlLogoutSuccessHandler logoutSuccessHandler; //注销成功
+    private UrlLogoutSuccessHandler logoutSuccessHandler; //自定义注销成功处理器
 
     @Resource
-    private UrlAccessDeniedHandler accessDeniedHandler; //无权访问
+    private UrlAccessDeniedHandler accessDeniedHandler; //自定义无权访问处理
 
     @Resource
     private SelfAuthenticationProvider authenticationProvider; //自定义安全认证
