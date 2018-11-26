@@ -2,7 +2,7 @@ package com.andon.securitydemo.util;
 
 import com.google.gson.Gson;
 
-public class GsonUtil {
+public class JsonUtil {
 
     public static Gson getGson(){
         return new Gson();

@@ -2,8 +2,8 @@ package com.andon.securitydemo.security.config;
 
 import com.andon.securitydemo.security.bean.UrlResponse;
 import com.andon.securitydemo.util.JsonUtil;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 用户未登录
+ * 无权访问
  */
 @Component
-public class UrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class UrlAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
 
         UrlResponse response = new UrlResponse();
-        response.setStatus("000");
+        response.setStatus("300");
         response.setMessage("Need Authorities!");
 
         httpServletResponse.getWriter().write(JsonUtil.getGson().toJson(response));

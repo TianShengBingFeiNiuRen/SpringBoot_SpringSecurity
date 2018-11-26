@@ -3,7 +3,7 @@ package com.andon.securitydemo.security.config;
 import com.andon.securitydemo.security.bean.UrlResponse;
 import com.andon.securitydemo.util.JsonUtil;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -12,17 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 用户未登录
+ * 登录失败
  */
 @Component
-public class UrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class UrlAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
 
         UrlResponse response = new UrlResponse();
-        response.setStatus("000");
-        response.setMessage("Need Authorities!");
+        response.setStatus("400");
+        response.setMessage("Login Failure!");
 
         httpServletResponse.getWriter().write(JsonUtil.getGson().toJson(response));
     }

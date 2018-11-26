@@ -3,7 +3,7 @@ package com.andon.securitydemo.security.bean;
 import java.io.Serializable;
 
 /**
- * 返回给前端JSON的数据格式
+ * 返回给前端的json数据格式
  */
 public class UrlResponse implements Serializable {
 
