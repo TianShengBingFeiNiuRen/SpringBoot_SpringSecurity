@@ -1,4 +1,4 @@
-package com.andon.securitydemo.security;
+package com.andon.securitydemo.config;
 
 import com.andon.securitydemo.domain.Menu;
 import com.andon.securitydemo.service.UserService;

@@ -1,4 +1,4 @@
-package com.andon.securitydemo.security;
+package com.andon.securitydemo.config;
 
 import com.andon.securitydemo.util.JsonUtil;
 import org.springframework.security.core.Authentication;

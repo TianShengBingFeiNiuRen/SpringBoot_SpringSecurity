@@ -1,4 +1,4 @@
-package com.andon.securitydemo.security;
+package com.andon.securitydemo.config;
 
 import com.andon.securitydemo.domain.User;
 import com.andon.securitydemo.service.UserService;
@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.HashSet;

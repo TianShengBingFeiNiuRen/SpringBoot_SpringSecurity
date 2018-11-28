@@ -1,4 +1,4 @@
-package com.andon.securitydemo.security;
+package com.andon.securitydemo.config;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,10 +27,10 @@ public class SelfAuthenticationProvider implements AuthenticationProvider {
 
         UserDetails userInfo = userDetailsService.loadUserByUsername(username);
 
-        if (!userInfo.getPassword().equals(password)){
+        if (!userInfo.getPassword().equals(password)) {
             throw new BadCredentialsException("用户名密码不正确, 请重新登录!");
         }
-
+        System.out.println("userInfo=" + userInfo);
         return new UsernamePasswordAuthenticationToken(username, password, userInfo.getAuthorities());
     }
 

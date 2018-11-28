@@ -1,4 +1,4 @@
-package com.andon.securitydemo.security;
+package com.andon.securitydemo.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -48,7 +48,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/connect").permitAll() //该请求路径不进行过滤
-//                .antMatchers("/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
+//                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
                 .anyRequest()
                 .authenticated() //其他url需要身份认证
 
