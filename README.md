@@ -7,4 +7,4 @@
 
 [WebSecurityConfigure.java](https://github.com/TianShengBingFeiNiuRen/SpringBoot_SpringSecurity/blob/master/src/main/java/com/andon/securitydemo/config/WebSecurityConfigure.java).
 
-CSDN:[link](https://blog.csdn.net/weixin_39792935/article/details/84541194).
+CSDN: [link](https://blog.csdn.net/weixin_39792935/article/details/84541194).
