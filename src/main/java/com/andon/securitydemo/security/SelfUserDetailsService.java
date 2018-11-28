@@ -1,11 +1,15 @@
 package com.andon.securitydemo.security;
 
+import com.andon.securitydemo.domain.User;
+import com.andon.securitydemo.service.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,13 +19,17 @@ import java.util.Set;
 @Component
 public class SelfUserDetailsService implements UserDetailsService {
 
+    @Resource
+    private UserService userService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         SelfUserDetails userInfo = new SelfUserDetails();
         userInfo.setUsername(username); //任意登录用户名
 
-        userInfo.setPassword("123"); //从数据库获取密码
+        User user = userService.findByUsername(username);
+        userInfo.setPassword(user.getPassword()); //从数据库获取密码
 
         Set authoritiesSet = new HashSet();
         SimpleGrantedAuthority role_admin = new SimpleGrantedAuthority("ROLE_ADMIN"); //从数据库获取用户角色

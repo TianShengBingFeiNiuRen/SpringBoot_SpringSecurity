@@ -27,11 +27,11 @@ public class ConnectController {
         return "login";
     }
 
-    @PostMapping(value = "/error")
+    /*@PostMapping(value = "/error")
     public String error(){
         System.out.println("error_POST");
         return "error";
-    }
+    }*/
 
     @GetMapping(value = "/bye")
     public String bye(){
