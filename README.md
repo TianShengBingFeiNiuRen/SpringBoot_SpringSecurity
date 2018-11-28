@@ -5,9 +5,6 @@
 > 	Spring Security是一个专注于为Java应用程序提供身份验证和授权的框架。与所有Spring项目一样，Spring Security的真正强大之处在于它可以轻松扩展以满足自定义要求。
 
 
-WebSecurityConfigure.java跳转:
-https://github.com/TianShengBingFeiNiuRen/SpringBoot_SpringSecurity/blob/master/src/main/java/com/andon/securitydemo/config/WebSecurityConfigure.java
- [link](https://github.com/TianShengBingFeiNiuRen/SpringBoot_SpringSecurity/blob/master/src/main/java/com/andon/securitydemo/config/WebSecurityConfigure.java).
+[WebSecurityConfigure.java](https://github.com/TianShengBingFeiNiuRen/SpringBoot_SpringSecurity/blob/master/src/main/java/com/andon/securitydemo/config/WebSecurityConfigure.java).
 
-CSDN:
-https://blog.csdn.net/weixin_39792935/article/details/84541194
+CSDN:[link](https://blog.csdn.net/weixin_39792935/article/details/84541194).
