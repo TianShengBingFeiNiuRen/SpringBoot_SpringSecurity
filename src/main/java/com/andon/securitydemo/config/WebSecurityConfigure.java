@@ -1,9 +1,11 @@
 package com.andon.securitydemo.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import javax.annotation.Resource;
 
@@ -29,12 +31,17 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     private UrlAccessDeniedHandler accessDeniedHandler; //自定义无权访问处理
 
     @Resource
-    private SelfAuthenticationProvider authenticationProvider; //自定义安全认证
+    private SelfAuthenticationProvider authenticationProvider; //自定义登录认证
+
+    @Resource
+    private SelfFilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource; //动态获取url权限配置
+
+    @Resource
+    private SelfAccessDecisionManager accessDecisionManager; //权限判断
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 加入自定义安全认证
-        auth.authenticationProvider(authenticationProvider);
+        auth.authenticationProvider(authenticationProvider); //自定义登录认证
     }
 
     @Override
@@ -42,7 +49,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable() //关闭csrf验证
 
-                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+                .httpBasic().authenticationEntryPoint(authenticationEntryPoint) //未登录时返回JSON数据
 
                 // 定制请求的授权规则
                 .and()
@@ -51,6 +58,14 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
                 .anyRequest()
                 .authenticated() //其他url需要身份认证
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(filterInvocationSecurityMetadataSource); //动态获取url权限配置
+                        o.setAccessDecisionManager(accessDecisionManager); //权限判断
+                        return o;
+                    }
+                })
 
                 // 开启自动配置的登录功能
                 .and()
