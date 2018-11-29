@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * 前端交互
+ * 登录认证
  */
 @Component
 public class SelfAuthenticationProvider implements AuthenticationProvider {
