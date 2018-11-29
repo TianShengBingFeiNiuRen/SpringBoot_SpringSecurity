@@ -28,7 +28,7 @@ public class SelfAuthenticationProvider implements AuthenticationProvider {
         UserDetails userInfo = userDetailsService.loadUserByUsername(username);
 
         if (!userInfo.getPassword().equals(password)) {
-            throw new BadCredentialsException("用户名密码不正确, 请重新登录!");
+            throw new BadCredentialsException("The password is incorrect!!");
         }
         System.out.println("userInfo=" + userInfo);
         return new UsernamePasswordAuthenticationToken(username, password, userInfo.getAuthorities());

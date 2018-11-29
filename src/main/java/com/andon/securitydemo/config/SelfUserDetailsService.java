@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
@@ -28,6 +29,9 @@ public class SelfUserDetailsService implements UserDetailsService {
         userInfo.setUsername(username); //任意登录用户名
 
         User user = userService.findByUsername(username);
+        if (ObjectUtils.isEmpty(user)){
+            throw new UsernameNotFoundException("User name" + username + "not find!!");
+        }
         userInfo.setPassword(user.getPassword()); //从数据库获取密码
 
         Set authoritiesSet = new HashSet();

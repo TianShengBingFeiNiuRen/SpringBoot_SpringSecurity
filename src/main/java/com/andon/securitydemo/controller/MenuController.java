@@ -27,7 +27,7 @@ public class MenuController {
      */
     @PostMapping(value = "/menu/findAll")
     public SecurityResponse findAll() {
-        List<Menu> menus = menuService.findAll();
+        List<Menu> menus = menuService.findMainMenu();
         return new SecurityResponse("1", "Find all menu success!!", menus);
     }
 
