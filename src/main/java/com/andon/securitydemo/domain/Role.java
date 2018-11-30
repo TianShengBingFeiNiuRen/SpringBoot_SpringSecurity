@@ -9,18 +9,18 @@ import java.util.List;
 public class Role implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Long id; //id
 
     @Column(name = "role_name")
-    private String roleName;
+    private String roleName; //角色名称(必须以ROLE_起始命名)
 
     @Column(name = "role_name_CN")
-    private String roleNameCN;
+    private String roleNameCN; //角色名称(中文)
 
     @Column(name = "remark")
-    private String remark;
+    private String remark; //备注
 
     /*@ManyToMany(targetEntity = User.class, mappedBy = "roles")
     private List<User> users;*/

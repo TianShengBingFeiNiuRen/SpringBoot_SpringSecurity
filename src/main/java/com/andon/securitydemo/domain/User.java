@@ -9,7 +9,7 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id; //Id
 
@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String password; //密码
 
     @Column(name = "email")
-    private String email; //邮件
+    private String email; //邮箱
 
     @Column(name = "remark")
     private String remark; //备注

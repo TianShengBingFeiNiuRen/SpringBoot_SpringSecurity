@@ -9,25 +9,25 @@ import java.util.List;
 public class Menu implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Long id; //id
 
     @Column(name = "url")
-    private String url;
+    private String url; //请求路径
 
     @Column(name = "menu_name")
-    private String menuName;
+    private String menuName; //菜单名称
 
     @Column(name = "parent_id")
-    private Long parentId;
+    private Long parentId; //父菜单id
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_id")
-    private List<Menu> children;
+    private List<Menu> children; //菜单子集
 
     @Column(name = "remark")
-    private String remark;
+    private String remark; //备注
 
     public Menu() {
     }

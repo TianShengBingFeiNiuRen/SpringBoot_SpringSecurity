@@ -64,7 +64,7 @@ public class UserController {
      * 为用户添加角色
      */
     @PostMapping(value = "/user/addRoles")
-    public SecurityResponse addRoles(@RequestBody UserRoles userRoles) {
+    public SecurityResponse addRoles(UserRoles userRoles) {
         System.out.println(userRoles);
         userService.addRoles(userRoles.getUserId(), userRoles.getRoleIds());
         return new SecurityResponse("1", "User add role success!!", userRoles);

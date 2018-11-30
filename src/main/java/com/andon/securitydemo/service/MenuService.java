@@ -55,8 +55,8 @@ public class MenuService {
         menuRepository.deleteById(menuId);
     }
 
-    public List<Menu> findAllMenu(){
-        return menuRepository.findAll();
+    public Set<String> getAllUrl(){
+        return menuRepository.getAllMenuUrl();
     }
 
     @Resource

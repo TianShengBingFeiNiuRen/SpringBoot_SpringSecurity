@@ -64,7 +64,7 @@ public class RoleController {
      * 为角色添加可访问的资源菜单
      */
     @PostMapping(value = "/role/addMenus")
-    public SecurityResponse addMenus(@RequestBody MenuRoles menuRoles) {
+    public SecurityResponse addMenus(MenuRoles menuRoles) {
         System.out.println(menuRoles);
         roleService.addMenus(menuRoles.getRoleId(), menuRoles.getMenuIds());
         return new SecurityResponse("1", "Role add menu success!!", menuRoles);

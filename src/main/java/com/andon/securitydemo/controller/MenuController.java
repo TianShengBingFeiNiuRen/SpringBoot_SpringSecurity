@@ -48,7 +48,7 @@ public class MenuController {
      * 修改菜单信息
      */
     @PostMapping(value = "/menu/update")
-    public SecurityResponse update(@RequestBody Menu menu) {
+    public SecurityResponse update(Menu menu) {
         Menu save = menuService.save(menu);
         return new SecurityResponse("1", "Update menu success!!", save);
     }

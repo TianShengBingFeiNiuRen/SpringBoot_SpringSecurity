@@ -1,6 +1,5 @@
 package com.andon.securitydemo.config;
 
-import com.andon.securitydemo.domain.Menu;
 import com.andon.securitydemo.service.MenuService;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -30,10 +29,10 @@ public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocat
         Set<ConfigAttribute> set = new HashSet<>();
         // 获取请求地址
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        List<Menu> allMenu = menuService.findAllMenu();
-        for (Menu menu : allMenu) {
-            if (antPathMatcher.match(menu.getUrl(), requestUrl)) {
-                Set<String> roleNames = menuService.findRolesByUrl(menu.getUrl()); //当前请求需要的权限
+        Set<String> allUrl = menuService.getAllUrl();
+        for (String url : allUrl) {
+            if (antPathMatcher.match(url, requestUrl)) {
+                Set<String> roleNames = menuService.findRolesByUrl(url); //当前请求需要的权限
                 for (String roleName : roleNames) {
                     SecurityConfig securityConfig = new SecurityConfig(roleName);
                     set.add(securityConfig);
