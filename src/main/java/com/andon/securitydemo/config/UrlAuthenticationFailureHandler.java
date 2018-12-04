@@ -23,6 +23,6 @@ public class UrlAuthenticationFailureHandler implements AuthenticationFailureHan
         response.setStatus("400");
         response.setMessage("Login Failure!");
 
-        httpServletResponse.getWriter().write(JsonUtil.getGson().toJson(response));
+        httpServletResponse.getWriter().write(JsonUtil.GSON.toJson(response));
     }
 }

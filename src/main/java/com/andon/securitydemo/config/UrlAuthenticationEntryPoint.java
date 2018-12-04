@@ -23,6 +23,6 @@ public class UrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus("000");
         response.setMessage("Need Authorities!");
 
-        httpServletResponse.getWriter().write(JsonUtil.getGson().toJson(response));
+        httpServletResponse.getWriter().write(JsonUtil.GSON.toJson(response));
     }
 }

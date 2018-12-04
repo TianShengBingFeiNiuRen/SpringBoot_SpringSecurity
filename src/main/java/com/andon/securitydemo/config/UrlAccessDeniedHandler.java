@@ -23,6 +23,6 @@ public class UrlAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus("300");
         response.setMessage("Need Authorities!");
 
-        httpServletResponse.getWriter().write(JsonUtil.getGson().toJson(response));
+        httpServletResponse.getWriter().write(JsonUtil.GSON.toJson(response));
     }
 }

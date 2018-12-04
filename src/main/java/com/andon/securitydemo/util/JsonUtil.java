@@ -4,7 +4,5 @@ import com.google.gson.Gson;
 
 public class JsonUtil {
 
-    public static Gson getGson(){
-        return new Gson();
-    }
+    public static final Gson GSON = new Gson();
 }

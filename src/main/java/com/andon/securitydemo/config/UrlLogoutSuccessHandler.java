@@ -23,6 +23,6 @@ public class UrlLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setStatus("100");
         response.setMessage("Logout Success!!");
 
-        httpServletResponse.getWriter().write(JsonUtil.getGson().toJson(response));
+        httpServletResponse.getWriter().write(JsonUtil.GSON.toJson(response));
     }
 }

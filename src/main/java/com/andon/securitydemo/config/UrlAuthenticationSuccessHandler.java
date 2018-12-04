@@ -36,6 +36,6 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
         Set<Menu> menus = userService.getMenusByUsername(username);
         response.setResult(menus);
 
-        httpServletResponse.getWriter().write(JsonUtil.getGson().toJson(response));
+        httpServletResponse.getWriter().write(JsonUtil.GSON.toJson(response));
     }
 }
