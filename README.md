@@ -13,9 +13,8 @@
 7. 菜单管理模块（查询所有菜单、新增菜单、修改菜单、删除菜单）。
 
 **maven依赖**
-
 ```
-		<dependency>
+	<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
