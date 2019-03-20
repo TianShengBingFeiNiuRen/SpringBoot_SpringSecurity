@@ -8,8 +8,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://####:3306/security?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: biDxx2407%
+    username: ####
+    password: ####
   jpa:
     show-sql: true
     hibernate:
