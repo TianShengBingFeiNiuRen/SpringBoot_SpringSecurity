@@ -12,7 +12,14 @@
 6. 角色管理模块（查询所有角色、新增角色、修改角色、删除角色、为角色添加可访问的资源菜单）。
 7. 菜单管理模块（查询所有菜单、新增菜单、修改菜单、删除菜单）。
 
+**maven依赖**
 
+```
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+```
 
 
 跳转: [**WebSecurityConfigure.java**](https://github.com/TianShengBingFeiNiuRen/SpringBoot_SpringSecurity/blob/master/src/main/java/com/andon/securitydemo/config/WebSecurityConfigure.java)
