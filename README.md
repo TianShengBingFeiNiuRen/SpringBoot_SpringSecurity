@@ -21,6 +21,6 @@
 ```
 
 
-跳转: [**WebSecurityConfigure.java**](https://github.com/TianShengBingFeiNiuRen/SpringBoot_SpringSecurity/blob/master/src/main/java/com/andon/securitydemo/config/WebSecurityConfigure.java)
+跳转: [**WebSecurityConfigure.java**](https://github.com/TianShengBingFeiNiuRen/SpringBoot_SpringSecurity/blob/master/src/main/java/com/nonce/restsecurity/config/WebSecurityConfigure.java)
 
 **CSDN**: [**link**](https://blog.csdn.net/weixin_39792935/article/details/84541194).
