@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8018
 #  servlet:
 #    session:
 #      timeout: 10
@@ -7,10 +7,10 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://###:3306/security?useSSL=false
-    username: ###
-    password: ###
+    url: jdbc:mysql://####:3306/security?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: biDxx2407%
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: none
-    show-sql: true
