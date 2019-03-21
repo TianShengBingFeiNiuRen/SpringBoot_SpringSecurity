@@ -1,5 +1,6 @@
 package com.nonce.restsecurity.config;
 
+import com.nonce.restsecurity.util.GsonUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -15,20 +16,20 @@ import java.io.IOException;
  * <p>
  * 用户未登录
  */
+@SuppressWarnings("Duplicates")
 @Component
 public class UrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
 
-        /*UrlResponse response = new UrlResponse();
+        UrlResponse response = new UrlResponse();
         response.setSuccess(false);
         response.setCode("401");
         response.setMessage("Need Authorities!");
         response.setData(null);
 
-        httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));*/
-
-        httpServletResponse.sendError(401, "Need Authorities!");
+        httpServletResponse.setStatus(401);
+        httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));
     }
 }

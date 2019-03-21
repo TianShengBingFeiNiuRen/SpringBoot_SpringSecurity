@@ -1,5 +1,6 @@
 package com.nonce.restsecurity.config;
 
+import com.nonce.restsecurity.util.GsonUtil;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -21,15 +22,13 @@ public class UrlAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
 
-        /*httpServletResponse.setStatus(300);
         UrlResponse response = new UrlResponse();
         response.setSuccess(false);
         response.setCode("403");
         response.setMessage("Need Authorities!");
         response.setData(null);
 
-        httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));*/
-
-        httpServletResponse.sendError(403, "Need Authorities!");
+        httpServletResponse.setStatus(403);
+        httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));
     }
 }
