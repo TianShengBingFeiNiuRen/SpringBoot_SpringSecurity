@@ -36,7 +36,7 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 
         String username = (String) authentication.getPrincipal(); //表单输入的用户名
         String password = (String) authentication.getCredentials(); //表单输入的密码
-        Map<String, Object> userInfo = userService.findMenuInfoByUsername(username);
+        Map<String, Object> userInfo = userService.findMenuInfoByUsername(username, response);
 
         response.setData(userInfo);
 
