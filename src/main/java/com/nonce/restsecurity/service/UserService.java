@@ -79,15 +79,18 @@ public class UserService {
                     menuInfoList.add(map);
                 });
             }
-            List<Map<String, Object>> notRootMenuInfoByUsername = authorityUserRepository.findNotRootMenuInfoByUsername(username);
-            if (!ObjectUtils.isEmpty(notRootMenuInfoByUsername)) {
-                notRootMenuInfoByUsername.forEach(rootMenuInfo -> {
+            List<Integer> rootMenuIdOfPartialPermission = authorityUserRepository.findRootMenuIdOfPartialPermission(username);
+            if (!ObjectUtils.isEmpty(rootMenuIdOfPartialPermission)) {
+                rootMenuIdOfPartialPermission.forEach(menuId -> {
+                    Map<String, Object> rootMenuInfo = authorityUserRepository.findMenuInfoByMenuId(menuId);
+                    List<Map<String, Object>> children = authorityUserRepository.findChildrenMenuInfoByUsernameAndParentId(username, menuId);
                     Map<String, Object> map = new HashMap<>();
-                    map.put("id", rootMenuInfo.get("id"));
+                    map.put("id", menuId);
                     map.put("url", rootMenuInfo.get("url"));
                     map.put("menuName", rootMenuInfo.get("menuName"));
                     map.put("parentId", rootMenuInfo.get("parentId"));
                     map.put("urlPre", rootMenuInfo.get("urlPre"));
+                    map.put("children", children);
                     menuInfoList.add(map);
                 });
             }
