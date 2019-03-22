@@ -111,7 +111,7 @@ public class UserService {
     /**
      * 根据菜单url获得需要拥有的角色
      */
-    public String findRoleNameByMenuUrl(String url) {
+    public List<String> findRoleNameByMenuUrl(String url) {
         return authorityUserRepository.findRoleNameByMenuUrl(url);
     }
 
