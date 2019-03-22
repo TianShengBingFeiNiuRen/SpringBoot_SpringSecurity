@@ -1,5 +1,6 @@
 package com.nonce.restsecurity.service;
 
+import com.nonce.restsecurity.config.UrlResponse;
 import com.nonce.restsecurity.dao.AuthorityUserRepository;
 import com.nonce.restsecurity.util.TimeUtil;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class UserService {
     /**
      * 根据用户名获得菜单信息
      */
-    public Map<String, Object> findMenuInfoByUsername(String username) {
+    public Map<String, Object> findMenuInfoByUsername(String username, UrlResponse response) {
         String nickname = authorityUserRepository.findNickNameByUsername(username);
         Map<String, Object> userInfo = new HashMap<>();
         List<Map<String, Object>> menuInfoList = new ArrayList<>();
@@ -98,6 +99,9 @@ public class UserService {
         userInfo.put("nickname", nickname);
         userInfo.put("username", username);
         userInfo.put("menuList", menuInfoList);
+        if (!ObjectUtils.isEmpty(menuInfoList)) {
+            response.setTotal(menuInfoList.size());
+        }
         return userInfo;
     }
 
