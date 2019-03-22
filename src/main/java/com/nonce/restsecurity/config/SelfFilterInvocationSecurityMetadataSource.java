@@ -18,6 +18,8 @@ import java.util.Set;
 /**
  * @author Andon
  * @date 2019/3/20
+ * <p>
+ * 动态获取url权限配置
  */
 @Component
 public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
