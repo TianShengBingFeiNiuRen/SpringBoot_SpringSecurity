@@ -14,6 +14,7 @@ public class SecurityResponse implements Serializable {
     private String code; //状态码：-1失败 1成功
     private String message; //信息说明
     private Object data; //数据结果集
+    private int total; //总条数
 
     public SecurityResponse() {
     }
@@ -23,6 +24,14 @@ public class SecurityResponse implements Serializable {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public SecurityResponse(boolean success, String code, String message, Object data, int total) {
+        this.success = success;
+        this.code = code;
+        this.message = message;
+        this.data = data;
+        this.total = total;
     }
 
     public boolean isSuccess() {
@@ -57,6 +66,14 @@ public class SecurityResponse implements Serializable {
         this.data = data;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
     @Override
     public String toString() {
         return "SecurityResponse{" +
@@ -64,6 +81,7 @@ public class SecurityResponse implements Serializable {
                 ", code='" + code + '\'' +
                 ", message='" + message + '\'' +
                 ", data=" + data +
+                ", total=" + total +
                 '}';
     }
 }
