@@ -53,7 +53,7 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
             "\t\tAND parent_id NOT IN (0,1))\n" +
             "\tAND parent_id=?2")
     List<Map<String, Object>> findChildrenMenuInfoByUsernameAndParentId(String username, int parentId);
-    
+
     @Query(nativeQuery = true, value = "SELECT url FROM authority_menu")
     List<String> findAllMenuUrl();
 
@@ -83,8 +83,11 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?2, username=?3, password=?4, email=?5, phone=?6, valid_time=?7, update_time=?8, remark=?9 WHERE id=?1")
     int updateUserInfoByUserId(int id, String nickname, String username, String password, String email, String phone, String validTime, String updateTime, String remark);
 
-    @Query(nativeQuery = true, value = "SELECT id AS id, username AS username, password AS password, nickname AS nickname, email AS email, phone AS phone, valid_time AS validTime, remark AS remark FROM authority_user WHERE username LIKE ?3 AND nickname LIKE ?4 LIMIT 1,2")
+    @Query(nativeQuery = true, value = "SELECT id AS id, username AS username, password AS password, nickname AS nickname, email AS email, phone AS phone, valid_time AS validTime, remark AS remark FROM authority_user WHERE username LIKE ?3 AND nickname LIKE ?4 LIMIT ?1,?2")
     List<Map<String, Object>> findAllUserInfo(int pageNum, int pageSize, String username, String nickname);
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(id) FROM authority_user WHERE username LIKE ?1 AND nickname LIKE ?2")
+    int findAllUserInfoSize(String username, String nickname);
 
     @Query(nativeQuery = true, value = "SELECT id AS id, role_name AS roleName, role_name_CN AS roleNameCN, remark AS remark FROM authority_role WHERE id IN (SELECT role_id FROM authority_user_role WHERE user_id=?1)")
     List<Map<String, Object>> findRoleInfoByUserId(int userId);
@@ -115,6 +118,9 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT id AS id, role_name AS roleName, role_name_CN AS roleNameCN, remark AS remark FROM authority_role WHERE role_name_CN LIKE ?3 LIMIT ?1,?2")
     List<Map<String, Object>> findAllRoleInfo(int pageNum, int pageSize, String roleNameCN);
 
+    @Query(nativeQuery = true, value = "SELECT COUNT(id) FROM authority_role WHERE role_name_CN LIKE ?1")
+    int findAllRoleInfoSize(String roleNameCN);
+
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id=?1) AND parent_id=0")
     List<Map<String, Object>> findRootMenuInfoByRoleId(int roleId);
 
@@ -127,7 +133,7 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO authority_menu (url, menu_name, parent_id, update_time, remark, url_pre) VALUES (?1, ?2, ?3, ?4, ?5, ?6)")
     void addMenuInfo(String url, String menuName, String parentId, String updateTime, String remark, String urlPre);
-    
+
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, remark AS remark, url_pre AS urlPre FROM authority_menu WHERE menu_name=?1")
     Map<String, String> findMenuInfoByMenuName(String menuName);
 
