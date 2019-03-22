@@ -112,8 +112,9 @@ public class UserController {
     public SecurityResponse findAll(String pageNum, String pageSize, String username, String nickname) {
         try {
             if (!ObjectUtils.isEmpty(pageNum) && !ObjectUtils.isEmpty(pageSize)) {
-                List<Map<String, Object>> userInfoList = userService.findAllUserInfo(pageNum, pageSize, username, nickname);
-                return new SecurityResponse(true, "1", "Find all user success!!", userInfoList);
+                SecurityResponse securityResponse = new SecurityResponse();
+                List<Map<String, Object>> userInfoList = userService.findAllUserInfo(pageNum, pageSize, username, nickname, securityResponse);
+                return securityResponse;
             } else {
                 return new SecurityResponse(false, "-1", "Incomplete information!!", "Incomplete information!!");
             }
