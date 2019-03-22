@@ -35,10 +35,11 @@ public class MenuService {
     /**
      * 新增菜单信息
      */
-    public void addMenuInfo(String url, String menuName, String parentId, String remark, String urlPre) {
+    public Map<String, String> addMenuInfo(String url, String menuName, String parentId, String remark, String urlPre) {
         long timeId = System.currentTimeMillis();
         String nowTime = TimeUtil.FORMAT.get().format(timeId);
         authorityUserRepository.addMenuInfo(url, menuName, parentId, nowTime, remark, urlPre);
+        return authorityUserRepository.findMenuInfoByMenuName(menuName);
     }
 
     /**
