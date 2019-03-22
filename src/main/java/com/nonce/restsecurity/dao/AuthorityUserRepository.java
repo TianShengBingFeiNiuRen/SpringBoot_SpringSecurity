@@ -110,6 +110,9 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO authority_menu (url, menu_name, parent_id, update_time, remark, url_pre) VALUES (?1, ?2, ?3, ?4, ?5, ?6)")
     void addMenuInfo(String url, String menuName, String parentId, String updateTime, String remark, String urlPre);
+    
+    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, remark AS remark, url_pre AS urlPre FROM authority_menu WHERE menu_name=?1")
+    Map<String, String> findMenuInfoByMenuName(String menuName);
 
     @Modifying
     @Query(nativeQuery = true, value = "DELETE FROM authority_role_menu WHERE menu_id=?1")
