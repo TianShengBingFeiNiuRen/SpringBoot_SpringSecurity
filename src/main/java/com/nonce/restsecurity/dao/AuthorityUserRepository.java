@@ -57,8 +57,8 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT url FROM authority_menu")
     List<String> findAllMenuUrl();
 
-    @Query(nativeQuery = true, value = "SELECT role_name FROM authority_role WHERE id=(SELECT role_id FROM authority_role_menu WHERE menu_id=(SELECT id FROM authority_menu WHERE url=?1))")
-    String findRoleNameByMenuUrl(String url);
+    @Query(nativeQuery = true, value = "SELECT role_name FROM authority_role WHERE id IN (SELECT role_id FROM authority_role_menu WHERE menu_id IN (SELECT id FROM authority_menu WHERE url=?1))")
+    List<String> findRoleNameByMenuUrl(String url);
 
     @Query(nativeQuery = true, value = "SELECT COUNT(username) FROM authority_user WHERE username=?1")
     int findCountByUsername(String username);
