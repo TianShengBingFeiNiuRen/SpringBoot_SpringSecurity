@@ -37,8 +37,8 @@ public class MenuController {
             if (!ObjectUtils.isEmpty(url) && !ObjectUtils.isEmpty(menuName) && !ObjectUtils.isEmpty(parentId)) {
                 boolean existenceStatus = menuService.menuNameIsExistence(menuName);
                 if (!existenceStatus) {
-                    menuService.addMenuInfo(url, menuName, parentId, remark, urlPre);
-                    return new SecurityResponse(true, "1", "Add menu success!!", "menuName: " + menuName + " add success!!");
+                    Map<String, String> menuInfo = menuService.addMenuInfo(url, menuName, parentId, remark, urlPre);
+                    return new SecurityResponse(true, "1", "Add menu success!!", menuInfo);
                 } else {
                     return new SecurityResponse(false, "-1", "Menu already exists!!", "menuName: " + menuName + " already exists!!");
                 }
