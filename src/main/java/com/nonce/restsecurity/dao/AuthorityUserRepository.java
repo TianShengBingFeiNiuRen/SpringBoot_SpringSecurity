@@ -37,6 +37,23 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE parent_id=?1")
     List<Map<String, Object>> findMenuInfoByParentId(int id);
 
+    @Query(nativeQuery = true, value = "SELECT DISTINCT(parent_id) FROM authority_menu \n" +
+            "\tWHERE parent_id NOT IN (SELECT id FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1))) AND parent_id=0) \n" +
+            "\tAND id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1)))\n" +
+            "\tAND parent_id NOT IN (0,1)")
+    List<Integer> findRootMenuIdOfPartialPermission(String username);
+
+    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE id=?1")
+    Map<String, Object> findMenuInfoByMenuId(int menuId);
+
+    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu \n" +
+            "\tWHERE id IN (SELECT DISTINCT(id) FROM authority_menu \n" +
+            "\t\tWHERE parent_id NOT IN (SELECT id FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1))) AND parent_id=0) \n" +
+            "\t\tAND id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1)))\n" +
+            "\t\tAND parent_id NOT IN (0,1))\n" +
+            "\tAND parent_id=?2")
+    List<Map<String, Object>> findChildrenMenuInfoByUsernameAndParentId(String username, int parentId);
+    
     @Query(nativeQuery = true, value = "SELECT url FROM authority_menu")
     List<String> findAllMenuUrl();
 
