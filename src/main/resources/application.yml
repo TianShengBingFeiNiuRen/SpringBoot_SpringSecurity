@@ -1,8 +1,8 @@
 server:
   port: 8018
-#  servlet:
-#    session:
-#      timeout: 10
+  servlet:
+    session:
+      timeout: 2h
 
 spring:
   datasource:
