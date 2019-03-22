@@ -2,6 +2,7 @@ package com.nonce.restsecurity.service;
 
 import com.nonce.restsecurity.config.UrlResponse;
 import com.nonce.restsecurity.dao.AuthorityUserRepository;
+import com.nonce.restsecurity.util.SecurityResponse;
 import com.nonce.restsecurity.util.TimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -189,12 +190,13 @@ public class UserService {
     /**
      * 获取所有的用户信息
      */
-    public List<Map<String, Object>> findAllUserInfo(String pageNum, String pageSize, String username, String nickname) {
+    public List<Map<String, Object>> findAllUserInfo(String pageNum, String pageSize, String username, String nickname, SecurityResponse securityResponse) {
         int rowNum = Integer.parseInt(pageNum);
         int size = Integer.parseInt(pageSize);
         int row = (rowNum - 1) * size;
         String uName = "%" + username + "%";
         String nName = "%" + nickname + "%";
+        System.out.println("username >> " + username);
         List<Map<String, Object>> list = new ArrayList<>();
         List<Map<String, Object>> allUserInfo = authorityUserRepository.findAllUserInfo(row, size, uName, nName);
         for (Map<String, Object> userInfo : allUserInfo) {
@@ -212,6 +214,12 @@ public class UserService {
             map.put("roleList", roleInfo);
             list.add(map);
         }
+        int userInfoSize = authorityUserRepository.findAllUserInfoSize(uName, nName);
+        securityResponse.setSuccess(true);
+        securityResponse.setCode("1");
+        securityResponse.setMessage("Find all user success!!");
+        securityResponse.setData(list);
+        securityResponse.setTotal(userInfoSize);
         return list;
     }
 
