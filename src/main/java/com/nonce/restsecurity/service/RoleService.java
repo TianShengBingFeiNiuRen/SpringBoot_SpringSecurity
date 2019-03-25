@@ -105,6 +105,7 @@ public class RoleService {
                         map.put("url", rootMenu.get("url"));
                         map.put("menuName", rootMenu.get("menuName"));
                         map.put("parentId", rootMenu.get("parentId"));
+                        map.put("remark", rootMenu.get("remark"));
                         map.put("urlPre", rootMenu.get("urlPre"));
                         map.put("children", children);
                         menuInfoList.add(map);
@@ -116,6 +117,7 @@ public class RoleService {
                     map.put("url", rootMenuInfo.get("url"));
                     map.put("menuName", rootMenuInfo.get("menuName"));
                     map.put("parentId", rootMenuInfo.get("parentId"));
+                    map.put("remark", rootMenuInfo.get("remark"));
                     map.put("urlPre", rootMenuInfo.get("urlPre"));
                     map.put("children", children);
                     menuInfoList.add(map);
@@ -131,6 +133,7 @@ public class RoleService {
                     map.put("url", rootMenuInfo.get("url"));
                     map.put("menuName", rootMenuInfo.get("menuName"));
                     map.put("parentId", rootMenuInfo.get("parentId"));
+                    map.put("remark", rootMenuInfo.get("remark"));
                     map.put("urlPre", rootMenuInfo.get("urlPre"));
                     map.put("children", children);
                     menuInfoList.add(map);
