@@ -28,7 +28,7 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT url FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1)))")
     List<String> findUrlsByUsername(String username);
 
-    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1))) AND parent_id=0")
+    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre, remark AS remark FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1))) AND parent_id=0")
     List<Map<String, Object>> findRootMenuInfoByUsername(String username);
 
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1))) AND parent_id!=0")
@@ -49,7 +49,7 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
             "\tAND parent_id NOT IN (0,1)")
     List<Integer> findRootMenuIdOfPartialPermission(String username);
 
-    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE id=?1")
+    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre, remark AS remark FROM authority_menu WHERE id=?1")
     Map<String, Object> findMenuInfoByMenuId(int menuId);
 
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu \n" +
@@ -160,7 +160,7 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "UPDATE authority_menu SET url=?2, menu_name=?3, parent_id=?4, update_time=?5, remark=?6, url_pre=?7 WHERE id=?1")
     int updateMenuInfoByMenuId(int id, String url, String menuName, String parentId, String updateTime, String remark, String urlPre);
 
-    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE parent_id=0")
+    @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre, remark AS remark FROM authority_menu WHERE parent_id=0")
     List<Map<String, Object>> findRootMenuInfo();
 
     @Query(nativeQuery = true, value = "SELECT COUNT(username) FROM authority_user WHERE id!=?1 AND username=?2")
