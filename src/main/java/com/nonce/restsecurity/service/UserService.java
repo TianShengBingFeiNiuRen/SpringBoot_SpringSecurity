@@ -171,9 +171,9 @@ public class UserService {
     }
 
     /**
-     * 修改用户信息 (批量角色id:逗号分隔)
+     * 修改用户信息
      */
-    public void updateUserInfo(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark, String roleIds) {
+    public void updateUserInfo(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
         int userId = Integer.parseInt(id);
         long timeId = System.currentTimeMillis();
         String nowTime = TimeUtil.FORMAT.get().format(timeId);
@@ -182,12 +182,6 @@ public class UserService {
             authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, password, email, phone, validTimeDefault, nowTime, remark);
         }
         authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, password, email, phone, validTime, nowTime, remark);
-        authorityUserRepository.deleteRolesByUserId(userId);
-        String[] roleIdsArray = roleIds.split(",");
-        for (String roleId : roleIdsArray) {
-            int rId = Integer.parseInt(roleId);
-            authorityUserRepository.addRoleForUser(userId, rId, nowTime);
-        }
     }
 
     /**
