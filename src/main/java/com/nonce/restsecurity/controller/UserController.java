@@ -83,15 +83,15 @@ public class UserController {
     }
 
     /**
-     * 修改用户信息 (批量角色id:逗号分隔)
+     * 修改用户信息
      */
     @PostMapping(value = "/user/update")
-    public SecurityResponse update(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark, String roleId) {
+    public SecurityResponse update(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
         try {
             if (!ObjectUtils.isEmpty(id) && !ObjectUtils.isEmpty(nickname) && !ObjectUtils.isEmpty(username) && !ObjectUtils.isEmpty(password)) {
                 boolean notExistenceOfUpdateUsername = userService.isNotExistenceOfUpdateUsername(id, username);
                 if (notExistenceOfUpdateUsername) {
-                    userService.updateUserInfo(id, nickname, username, password, email, phone, validTime, remark, roleId);
+                    userService.updateUserInfo(id, nickname, username, password, email, phone, validTime, remark);
                     return new SecurityResponse(true, "1", "Update userInfo success!!", "username: " + nickname + " update success!!");
                 } else {
                     return new SecurityResponse(false, "-1", "Update userInfo failure!!", "username: " + username + " already exists!!");
