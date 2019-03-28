@@ -99,6 +99,10 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     int updateUserInfoByUserIdExcludeValidTime(int id, String nickname, String username, String password, String email, String phone, String updateTime, String remark);
 
     @Modifying
+    @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?2, username=?3, email=?4, phone=?5, update_time=?6, remark=?7 WHERE id=?1")
+    int updateUserInfoByUserIdExcludeValidTimeAndPassword(int id, String nickname, String username, String email, String phone, String updateTime, String remark);
+
+    @Modifying
     @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?2, username=?3, email=?4, phone=?5, valid_time=?6, update_time=?7, remark=?8 WHERE id=?1")
     int updateUserInfoByUserIdExcludePassword(int id, String nickname, String username, String email, String phone, String validTime, String updateTime, String remark);
 
