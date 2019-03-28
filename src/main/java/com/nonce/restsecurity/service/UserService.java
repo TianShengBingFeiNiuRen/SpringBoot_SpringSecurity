@@ -178,15 +178,13 @@ public class UserService {
      * 修改用户信息
      */
     public void updateUserInfo(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
-        String encode = new BCryptPasswordEncoder().encode(password);
         int userId = Integer.parseInt(id);
-        long timeId = System.currentTimeMillis();
-        String nowTime = TimeUtil.FORMAT.get().format(timeId);
-        if (ObjectUtils.isEmpty(validTime)) {
-            String validTimeDefault = TimeUtil.FORMAT.get().format(timeId + 7 * 24 * 60 * 60 * 1000);
-            authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, encode, email, phone, validTimeDefault, nowTime, remark);
-        } else {
-            authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, encode, email, phone, validTime, nowTime, remark);
+        String nowTime = TimeUtil.FORMAT.get().format(System.currentTimeMillis());
+        if (ObjectUtils.isEmpty(validTime) && !ObjectUtils.isEmpty(password)) {
+            String encode = new BCryptPasswordEncoder().encode(password);
+            authorityUserRepository.updateUserInfoByUserIdExcludeValidTime(userId, nickname, username, encode, email, phone, nowTime, remark);
+        } else if (!ObjectUtils.isEmpty(validTime) && ObjectUtils.isEmpty(password)) {
+            authorityUserRepository.updateUserInfoByUserIdExcludePassword(userId, nickname, username, email, phone, validTime, nowTime, remark);
         }
     }
 
