@@ -36,7 +36,7 @@ public class PersonalController {
         if (!ObjectUtils.isEmpty(username)) {
             response.setSuccess(true);
             response.setCode("1");
-            response.setMessage("Login Success!");
+            response.setMessage("findPersonalMenuList Success!");
             Map<String, Object> userInfo = userService.findMenuInfoByUsername(username, response);
             response.setData(userInfo);
         } else {
