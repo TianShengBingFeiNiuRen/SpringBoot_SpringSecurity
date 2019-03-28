@@ -19,6 +19,7 @@ import java.util.Map;
  * <p>
  * 用户管理
  */
+@SuppressWarnings("Duplicates")
 @RestController
 @RequestMapping(value = "/security")
 public class UserController {
