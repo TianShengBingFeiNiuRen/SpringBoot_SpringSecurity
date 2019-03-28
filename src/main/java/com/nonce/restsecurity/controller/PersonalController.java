@@ -58,7 +58,7 @@ public class PersonalController {
     @PostMapping(value = "/personalUserInfo/update")
     public SecurityResponse update(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
         try {
-            if (!ObjectUtils.isEmpty(id) && !ObjectUtils.isEmpty(nickname) && !ObjectUtils.isEmpty(username) && ((ObjectUtils.isEmpty(validTime) && !ObjectUtils.isEmpty(password)) || (!ObjectUtils.isEmpty(validTime) && ObjectUtils.isEmpty(password)))) {
+            if (!ObjectUtils.isEmpty(id) && !ObjectUtils.isEmpty(nickname) && !ObjectUtils.isEmpty(username)) {
                 boolean notExistenceOfUpdateUsername = userService.isNotExistenceOfUpdateUsername(id, username);
                 if (notExistenceOfUpdateUsername) {
                     userService.updateUserInfo(id, nickname, username, password, email, phone, validTime, remark);
