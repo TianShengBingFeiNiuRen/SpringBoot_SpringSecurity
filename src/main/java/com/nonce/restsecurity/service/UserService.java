@@ -180,6 +180,17 @@ public class UserService {
     public void updateUserInfo(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
         int userId = Integer.parseInt(id);
         String nowTime = TimeUtil.FORMAT.get().format(System.currentTimeMillis());
+        if (ObjectUtils.isEmpty(validTime)) {
+            if (ObjectUtils.isEmpty(password)) {
+                authorityUserRepository.updateUserInfoByUserIdExcludeValidTimeAndPassword(userId, nickname, username, email, phone, nowTime, remark);
+            } else {
+                String encode = new BCryptPasswordEncoder().encode(password);
+                authorityUserRepository.updateUserInfoByUserIdExcludeValidTime(userId, nickname, username, encode, email, phone, nowTime, remark);
+            }
+        } else {
+            authorityUserRepository.updateUserInfoByUserIdExcludePassword(userId, nickname, username, email, phone, validTime, nowTime, remark);
+        }
+
         if (ObjectUtils.isEmpty(validTime) && !ObjectUtils.isEmpty(password)) {
             String encode = new BCryptPasswordEncoder().encode(password);
             authorityUserRepository.updateUserInfoByUserIdExcludeValidTime(userId, nickname, username, encode, email, phone, nowTime, remark);
@@ -187,7 +198,7 @@ public class UserService {
             authorityUserRepository.updateUserInfoByUserIdExcludePassword(userId, nickname, username, email, phone, validTime, nowTime, remark);
         }
     }
-
+    
     /**
      * 获取所有的用户信息
      */
