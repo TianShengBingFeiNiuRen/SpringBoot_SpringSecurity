@@ -94,6 +94,14 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?2, username=?3, password=?4, email=?5, phone=?6, valid_time=?7, update_time=?8, remark=?9 WHERE id=?1")
     int updateUserInfoByUserId(int id, String nickname, String username, String password, String email, String phone, String validTime, String updateTime, String remark);
 
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?2, username=?3, password=?4, email=?5, phone=?6, update_time=?7, remark=?8 WHERE id=?1")
+    int updateUserInfoByUserIdExcludeValidTime(int id, String nickname, String username, String password, String email, String phone, String updateTime, String remark);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?2, username=?3, email=?4, phone=?5, valid_time=?6, update_time=?7, remark=?8 WHERE id=?1")
+    int updateUserInfoByUserIdExcludePassword(int id, String nickname, String username, String email, String phone, String validTime, String updateTime, String remark);
+
     @Query(nativeQuery = true, value = "SELECT id AS id, username AS username, password AS password, nickname AS nickname, email AS email, phone AS phone, valid_time AS validTime, remark AS remark FROM authority_user WHERE username LIKE ?3 AND nickname LIKE ?4 LIMIT ?1,?2")
     List<Map<String, Object>> findAllUserInfo(int pageNum, int pageSize, String username, String nickname);
 
