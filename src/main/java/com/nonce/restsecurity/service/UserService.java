@@ -4,6 +4,7 @@ import com.nonce.restsecurity.config.UrlResponse;
 import com.nonce.restsecurity.dao.AuthorityUserRepository;
 import com.nonce.restsecurity.util.SecurityResponse;
 import com.nonce.restsecurity.util.TimeUtil;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -135,13 +136,15 @@ public class UserService {
      * 新增用户信息
      */
     public void addUserInfo(String nickname, String username, String password, String email, String phone, String validTime, String remark) {
+        String encode = new BCryptPasswordEncoder().encode(password);
         long timeId = System.currentTimeMillis();
         String nowTime = TimeUtil.FORMAT.get().format(timeId);
         if (ObjectUtils.isEmpty(validTime)) {
             String validTimeDefault = TimeUtil.FORMAT.get().format(timeId + 7 * 24 * 60 * 60 * 1000);
-            authorityUserRepository.addUserInfo(nickname, username, password, email, phone, validTimeDefault, nowTime, remark);
+            authorityUserRepository.addUserInfo(nickname, username, encode, email, phone, validTimeDefault, nowTime, remark);
+        } else {
+            authorityUserRepository.addUserInfo(nickname, username, encode, email, phone, validTime, nowTime, remark);
         }
-        authorityUserRepository.addUserInfo(nickname, username, password, email, phone, validTime, nowTime, remark);
     }
 
     /**
@@ -167,6 +170,7 @@ public class UserService {
             int uId = Integer.parseInt(userId);
             authorityUserRepository.deleteRolesByUserId(uId);
             authorityUserRepository.deleteUserInfoByUserId(uId);
+            authorityUserRepository.deleteUserCollectionByUserId(uId);
         }
     }
 
@@ -174,14 +178,16 @@ public class UserService {
      * 修改用户信息
      */
     public void updateUserInfo(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
+        String encode = new BCryptPasswordEncoder().encode(password);
         int userId = Integer.parseInt(id);
         long timeId = System.currentTimeMillis();
         String nowTime = TimeUtil.FORMAT.get().format(timeId);
         if (ObjectUtils.isEmpty(validTime)) {
             String validTimeDefault = TimeUtil.FORMAT.get().format(timeId + 7 * 24 * 60 * 60 * 1000);
-            authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, password, email, phone, validTimeDefault, nowTime, remark);
+            authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, encode, email, phone, validTimeDefault, nowTime, remark);
+        } else {
+            authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, encode, email, phone, validTime, nowTime, remark);
         }
-        authorityUserRepository.updateUserInfoByUserId(userId, nickname, username, password, email, phone, validTime, nowTime, remark);
     }
 
     /**
