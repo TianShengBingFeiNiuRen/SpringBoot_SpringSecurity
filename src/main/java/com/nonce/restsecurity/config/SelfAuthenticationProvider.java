@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
 /**
  * @author Andon
  * @date 2019/3/20
- *
+ * <p>
  * 登录认证
  */
 @Component
@@ -30,10 +31,11 @@ public class SelfAuthenticationProvider implements AuthenticationProvider {
 
         UserDetails userInfo = selfUserDetailsService.loadUserByUsername(username);
 
-        if (!userInfo.getPassword().equals(password)) {
+        boolean matches = new BCryptPasswordEncoder().matches(password, userInfo.getPassword());
+        if (!matches) {
             throw new BadCredentialsException("The password is incorrect!!");
         }
-        return new UsernamePasswordAuthenticationToken(username, password, userInfo.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(username, userInfo.getPassword(), userInfo.getAuthorities());
     }
 
     @Override
