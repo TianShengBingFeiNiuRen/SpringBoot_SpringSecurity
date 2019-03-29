@@ -15,6 +15,8 @@ import java.util.Collection;
 /**
  * @author Andon
  * @date 2019/3/20
+ * <p>
+ * 权限判断
  */
 @Component
 public class SelfAccessDecisionManager implements AccessDecisionManager {
@@ -31,6 +33,9 @@ public class SelfAccessDecisionManager implements AccessDecisionManager {
                 } else {
                     return;
                 }
+            }
+            if ("ROLE_common".equals(needRole)) {
+                return;
             }
             // 当前用户所具有的权限
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
