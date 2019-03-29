@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 /**
  * @author Andon
  * @date 2019/3/20
- *
+ * <p>
  * 登录拦截全局配置
  */
 @Configuration
@@ -57,7 +57,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 // 定制请求的授权规则
                 .and()
                 .authorizeRequests()
-                .antMatchers("/connect").permitAll() //该请求路径不进行过滤
+                .antMatchers("/connect").permitAll() //无条件允许访问
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
                 .anyRequest()
                 .authenticated() //其他url需要身份认证
