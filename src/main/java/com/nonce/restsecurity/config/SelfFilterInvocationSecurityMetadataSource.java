@@ -19,7 +19,7 @@ import java.util.Set;
  * @author Andon
  * @date 2019/3/20
  * <p>
- * 动态获取url权限配置
+ * * 动态获取url权限配置
  */
 @Component
 public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
@@ -47,6 +47,10 @@ public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocat
         }
         if (ObjectUtils.isEmpty(set)) {
             return SecurityConfig.createList("ROLE_LOGIN");
+        }
+        if (antPathMatcher.match("/common/**", requestUrl)) {
+            SecurityConfig securityConfig = new SecurityConfig("ROLE_common");
+            set.add(securityConfig);
         }
         return set;
     }
