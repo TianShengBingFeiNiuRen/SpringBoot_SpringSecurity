@@ -14,7 +14,6 @@ import org.springframework.util.ObjectUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +95,7 @@ public class HttpClientUtil {
         httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
         httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
         httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");*/
+        // 设置请求头
         packageHeader(headers, httpPost);
 
         // 封装请求参数
@@ -147,32 +147,26 @@ public class HttpClientUtil {
     }
 
     /**
-     * 发送delete请求;带请求头和请求参数
+     * 发送delete请求;带请求头
      */
-    public static String doDelete(String url, Map<String, String> headers, Map<String, String> params) throws IOException {
-        if (ObjectUtils.isEmpty(params)) {
-            params = new HashMap<>();
-        }
-        params.put("_method", "delete");
-        return doPost(url, headers, params);
+    public static String doDelete(String url, Map<String, String> headers) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpDelete httpDelete = new HttpDelete(url);
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+        httpDelete.setConfig(requestConfig);
+        packageHeader(headers, httpDelete);
+        return getHttpClientResult(httpClient, httpDelete);
     }
 
     /**
-     * 发送delete请求;带请求参数
-     */
-    public static String doDelete(String url, Map<String, String> params) throws IOException {
-        return doDelete(url, null, params);
-    }
-
-    /**
-     * 发送delete请求;不带请求头和请求参数
+     * 发送delete请求;不带请求头
      */
     public static String doDelete(String url) throws IOException {
-        return doDelete(url, null, null);
+        return doDelete(url, null);
     }
 
     /**
-     * 封装请求头
+     * 设置请求头
      */
     private static void packageHeader(Map<String, String> headers, HttpRequestBase httpMethod) {
         if (!ObjectUtils.isEmpty(headers)) {
