@@ -5,12 +5,26 @@ server:
       timeout: 2h
 
 spring:
+  main:
+    web-application-type: none
   datasource:
+    url: ######:3306/block?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8&autoReconnect=true&failOverReadOnly=false
+    username: ######
+    password: ######
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://####:3306/security?useUnicode=true&characterEncoding=utf-8
-    username: ####
-    password: ####
+    hikari:
+      read-only: false
+      connection-timeout: 60000
+      idle-timeout: 60000
+      validation-timeout: 3000
+      max-lifetime: 60000
+      login-timeout: 5
+      maximum-pool-size: 60
+      minimum-idle: 10
   jpa:
+    generate-ddl: false
     show-sql: true
     hibernate:
       ddl-auto: none
+    database: mysql
+    open-in-view: true
