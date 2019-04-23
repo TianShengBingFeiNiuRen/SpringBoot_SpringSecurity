@@ -28,10 +28,10 @@ public class HttpClientUtil {
     private static final String ENCODING = "UTF-8";
 
     // 设置连接超时时间,单位毫秒
-    private static final int CONNECT_TIMEOUT = 10 * 1000;
+    private static final int CONNECT_TIMEOUT = 10 * 60 * 1000;
 
     // 请求响应超时时间,单位毫秒
-    private static final int SOCKET_TIMEOUT = 10 * 1000;
+    private static final int SOCKET_TIMEOUT = 10 * 60 * 1000;
 
     /**
      * 发送get请求;带请求头和请求参数
@@ -149,9 +149,13 @@ public class HttpClientUtil {
     /**
      * 发送delete请求;带请求头
      */
-    public static String doDelete(String url, Map<String, String> headers) throws IOException {
+    public static String doDelete(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpDelete httpDelete = new HttpDelete(url);
+        URIBuilder uriBuilder = new URIBuilder(url);
+        if (!ObjectUtils.isEmpty(params)) {
+            params.forEach(uriBuilder::setParameter);
+        }
+        HttpDelete httpDelete = new HttpDelete(uriBuilder.build());
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
         httpDelete.setConfig(requestConfig);
         packageHeader(headers, httpDelete);
@@ -159,10 +163,17 @@ public class HttpClientUtil {
     }
 
     /**
-     * 发送delete请求;不带请求头
+     * 发送delete请求;带请求参数
      */
-    public static String doDelete(String url) throws IOException {
-        return doDelete(url, null);
+    public static String doDelete(String url, Map<String, String> params) throws Exception {
+        return doDelete(url, null, params);
+    }
+
+    /**
+     * 发送delete请求;不带请求头和请求参数
+     */
+    public static String doDelete(String url) throws Exception {
+        return doDelete(url, null, null);
     }
 
     /**
