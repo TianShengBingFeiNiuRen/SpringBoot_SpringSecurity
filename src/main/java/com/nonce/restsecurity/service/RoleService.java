@@ -47,6 +47,9 @@ public class RoleService {
      */
     public void addMenusForRole(String roleId, String menuIds) {
         int rId = Integer.parseInt(roleId);
+        if (rId == 1) {
+            return;
+        }
         authorityUserRepository.deleteMenusByRoleId(rId);
         String nowTime = TimeUtil.FORMAT.get().format(System.currentTimeMillis());
         String[] menuIdsArray = menuIds.split(",");
