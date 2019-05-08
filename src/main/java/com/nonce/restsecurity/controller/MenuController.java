@@ -20,7 +20,7 @@ import java.util.Map;
  * 菜单管理
  */
 @RestController
-@RequestMapping(value = "/security")
+@RequestMapping(value = "/security-manage")
 public class MenuController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MenuController.class);
@@ -31,11 +31,11 @@ public class MenuController {
     /**
      * 新增菜单 (url 必须是/caiDan1/**的形式)
      */
-    @PostMapping(value = "/menu/add")
+    @PostMapping(value = "/resource-manage/add")
     public SecurityResponse add(String url, String menuName, String parentId, String remark, String urlPre) {
         try {
             if (!ObjectUtils.isEmpty(url) && !ObjectUtils.isEmpty(menuName) && !ObjectUtils.isEmpty(parentId)) {
-                boolean existenceStatus = menuService.menuNameIsExistence(menuName);
+                boolean existenceStatus = menuService.menuNameIsExistence(menuName, parentId);
                 if (!existenceStatus) {
                     Map<String, String> menuInfo = menuService.addMenuInfo(url, menuName, parentId, remark, urlPre);
                     return new SecurityResponse(true, "1", "Add menu success!!", menuInfo);
@@ -54,7 +54,7 @@ public class MenuController {
     /**
      * 删除菜单 (批量删除id 逗号分隔)
      */
-    @PostMapping(value = "/menu/delete")
+    @PostMapping(value = "/resource-manage/delete")
     public SecurityResponse delete(String id) {
         try {
             if (!ObjectUtils.isEmpty(id)) {
@@ -72,7 +72,7 @@ public class MenuController {
     /**
      * 修改菜单信息
      */
-    @PostMapping(value = "/menu/update")
+    @PostMapping(value = "/resource-manage/update")
     public SecurityResponse update(String id, String url, String menuName, String parentId, String remark, String urlPre) {
         try {
             if (!ObjectUtils.isEmpty(id) && !ObjectUtils.isEmpty(url) && !ObjectUtils.isEmpty(menuName) && !ObjectUtils.isEmpty(parentId)) {
@@ -95,7 +95,7 @@ public class MenuController {
     /**
      * 获取所有菜单信息
      */
-    @PostMapping(value = "/menu/findAll")
+    @PostMapping(value = "/resource-manage/findAll")
     public SecurityResponse findAll() {
         try {
             List<Map<String, Object>> menuInfoList = menuService.findAllMenuInfo();
