@@ -55,7 +55,7 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu \n" +
             "\tWHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id=?1)\n" +
             "\tAND parent_id=?2")
-    List<Map<String, Object>>findChildrenMenuInfoByRoleIdAndParentId(int roleId, int parentId);
+    List<Map<String, Object>> findChildrenMenuInfoByRoleIdAndParentId(int roleId, int parentId);
 
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu \n" +
             "\tWHERE id IN (SELECT DISTINCT(id) FROM authority_menu \n" +
