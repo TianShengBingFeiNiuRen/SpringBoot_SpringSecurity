@@ -150,8 +150,8 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT id AS id, url AS url, menu_name AS menuName, parent_id AS parentId, url_pre AS urlPre FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id=?1) AND parent_id!=0")
     List<Map<String, Object>> findNotRootMenuInfoByRoleId(int roleId);
 
-    @Query(nativeQuery = true, value = "SELECT COUNT(menu_name) FROM authority_menu WHERE menu_name=?1")
-    int menuNameIsExistence(String menuName);
+    @Query(nativeQuery = true, value = "SELECT COUNT(menu_name) FROM authority_menu WHERE menu_name=?1 AND parent_id=?2")
+    int menuNameIsExistence(String menuName, String parentId);
 
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO authority_menu (url, menu_name, parent_id, update_time, remark, url_pre) VALUES (?1, ?2, ?3, ?4, ?5, ?6)")
