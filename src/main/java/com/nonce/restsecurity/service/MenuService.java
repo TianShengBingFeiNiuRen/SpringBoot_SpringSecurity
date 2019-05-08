@@ -39,7 +39,7 @@ public class MenuService {
         long timeId = System.currentTimeMillis();
         String nowTime = TimeUtil.FORMAT.get().format(timeId);
         authorityUserRepository.addMenuInfo(url, menuName, parentId, nowTime, remark, urlPre);
-        return authorityUserRepository.findMenuInfoByMenuName(menuName);
+        return authorityUserRepository.findMenuInfoByMenuName(menuName, parentId);
     }
 
     /**
