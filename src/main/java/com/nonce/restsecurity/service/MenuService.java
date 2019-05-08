@@ -27,8 +27,8 @@ public class MenuService {
     /**
      * 查询菜单是否已存在 存在:返回true
      */
-    public boolean menuNameIsExistence(String menuName) {
-        int count = authorityUserRepository.menuNameIsExistence(menuName);
+    public boolean menuNameIsExistence(String menuName, String parentId) {
+        int count = authorityUserRepository.menuNameIsExistence(menuName, parentId);
         return count == 1;
     }
 
