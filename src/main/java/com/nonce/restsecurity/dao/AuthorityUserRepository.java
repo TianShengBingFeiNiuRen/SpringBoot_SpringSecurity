@@ -22,8 +22,8 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT role_name FROM authority_role WHERE id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1))")
     List<String> findRoleNameByUsername(String username);
 
-    @Query(nativeQuery = true, value = "SELECT nickname FROM authority_user WHERE username=?1")
-    String findNickNameByUsername(String username);
+    @Query(nativeQuery = true, value = "SELECT id,nickname,remark FROM authority_user WHERE username=?1")
+    Map<String, Object> findUserIdAndNickNameAndRemarkByUsername(String username);
 
     @Query(nativeQuery = true, value = "SELECT url FROM authority_menu WHERE id IN (SELECT menu_id FROM authority_role_menu WHERE role_id IN (SELECT role_id FROM authority_user_role WHERE user_id=(SELECT id FROM authority_user WHERE username=?1)))")
     List<String> findUrlsByUsername(String username);
