@@ -35,6 +35,7 @@ public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocat
         Set<ConfigAttribute> set = new HashSet<>();
         // 获取请求地址
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
+        System.out.println("requestUrl >> " + requestUrl);
         List<String> menuUrl = userService.findAllMenuUrl();
         for (String url : menuUrl) {
             if (antPathMatcher.match(url, requestUrl)) {
