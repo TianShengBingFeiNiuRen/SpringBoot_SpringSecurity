@@ -2,7 +2,7 @@ server:
   port: 8018
   servlet:
     session:
-      timeout: 2h
+      timeout: 6h
 
 spring:
   main:
