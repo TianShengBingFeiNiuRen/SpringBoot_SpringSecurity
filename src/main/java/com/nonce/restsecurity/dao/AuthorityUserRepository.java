@@ -186,4 +186,26 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
 
     @Query(nativeQuery = true, value = "SELECT id FROM authority_menu WHERE parent_id=?1")
     List<Integer> selectChildrenMenuIds(int parentId);
+
+    @Query(nativeQuery = true, value = "SELECT nickname,username,phone,email FROM authority_user WHERE id=?1 AND username=?2")
+    Map<String, String> getUserInfoByUserIdAndUsername(String userId, String username);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?1, email=?3, phone=?4, update_time=?5 WHERE username=?2")
+    int updateUserBasicInfo(String nickname, String username, String email, String phone, String updateTime);
+
+    @Query(nativeQuery = true, value = "SELECT `password` FROM authority_user WHERE username=?1")
+    String getUserPasswordByUsername(String username);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE authority_user SET `password`=?2, update_time=?3 WHERE username=?1")
+    int updateUserPasswordByUsername(String username, String newPassword, String updateTime);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?1, email=?3, phone=?4, valid_time=?5, update_time=?6, remark=?7 WHERE username=?2")
+    int updateUserInfo(String nickname, String username, String email, String phone, String validTime, String updateTime, String remark);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE authority_user SET `password`=?3, update_time=?4 WHERE id=?1 AND username=?2")
+    int updateUserPassword(String userId, String username, String password, String updateTime);
 }

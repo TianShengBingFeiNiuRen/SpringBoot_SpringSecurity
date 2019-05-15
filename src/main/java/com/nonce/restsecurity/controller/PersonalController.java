@@ -3,8 +3,6 @@ package com.nonce.restsecurity.controller;
 import com.nonce.restsecurity.config.UrlResponse;
 import com.nonce.restsecurity.service.UserService;
 import com.nonce.restsecurity.util.SecurityResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +21,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/common")
 public class PersonalController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(PersonalController.class);
 
     @Resource
     private UserService userService;
@@ -53,25 +49,26 @@ public class PersonalController {
     }
 
     /**
+     * 获取个人信息
+     */
+    @PostMapping(value = "/personalUserInfo/get")
+    public SecurityResponse personalUserInfoGet(String userId, String username) {
+        return userService.personalUserInfoGet(userId, username);
+    }
+
+    /**
      * 修改个人信息
      */
     @PostMapping(value = "/personalUserInfo/update")
-    public SecurityResponse update(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
-        try {
-            if (!ObjectUtils.isEmpty(id) && !ObjectUtils.isEmpty(nickname) && !ObjectUtils.isEmpty(username)) {
-                boolean notExistenceOfUpdateUsername = userService.isNotExistenceOfUpdateUsername(id, username);
-                if (notExistenceOfUpdateUsername) {
-                    userService.updateUserInfo(id, nickname, username, password, email, phone, validTime, remark);
-                    return new SecurityResponse(true, "1", "Update userInfo success!!", "username: " + nickname + " update success!!");
-                } else {
-                    return new SecurityResponse(false, "-1", "Update userInfo failure!!", "username: " + username + " already exists!!");
-                }
-            } else {
-                return new SecurityResponse(false, "-1", "Incomplete information!!", "Incomplete information!!");
-            }
-        } catch (Exception e) {
-            LOG.error("updateUserInfo failure!! error={}", e.getMessage());
-            return new SecurityResponse(false, "-1", "Update userInfo failure!!", "username: " + nickname + " update failure!!");
-        }
+    public SecurityResponse personalUserInfoUpdate(String nickname, String username, String email, String phone, String password) {
+        return userService.personalUserInfoUpdate(nickname, username, email, phone, password);
+    }
+
+    /**
+     * 修改个人密码
+     */
+    @PostMapping(value = "/personalPassword/update")
+    public SecurityResponse personalPasswordUpdate(String username, String oldPassword, String newPassword) {
+        return userService.personalPasswordUpdateByOldPasswordAndNewPassword(username, oldPassword, newPassword);
     }
 }

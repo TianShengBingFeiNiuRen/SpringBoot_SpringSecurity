@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Andon
@@ -21,7 +19,7 @@ import java.util.Map;
  */
 @SuppressWarnings("Duplicates")
 @RestController
-@RequestMapping(value = "/security")
+@RequestMapping(value = "/security-manage")
 public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -32,7 +30,7 @@ public class UserController {
     /**
      * 新增用户信息
      */
-    @PostMapping(value = "/user/add")
+    @PostMapping(value = "/user-manage/add")
     public SecurityResponse add(String nickname, String username, String password, String email, String phone, String validTime, String remark) {
         if (!ObjectUtils.isEmpty(nickname) && !ObjectUtils.isEmpty(username) && !ObjectUtils.isEmpty(password)) {
             boolean existenceStatus = userService.usernameIsExistence(username);
@@ -50,7 +48,7 @@ public class UserController {
     /**
      * 为用户分配角色 (批量角色id:逗号分隔)
      */
-    @PostMapping(value = "/user/addRoles")
+    @PostMapping(value = "/user-manage/addRoles")
     public SecurityResponse addRolesForUser(String userId, String roleId) {
         try {
             if (!ObjectUtils.isEmpty(userId) && !ObjectUtils.isEmpty(roleId)) {
@@ -68,7 +66,7 @@ public class UserController {
     /**
      * 删除用户信息 (批量删除id 逗号分隔)
      */
-    @PostMapping(value = "/user/delete")
+    @PostMapping(value = "/user-manage/delete")
     public SecurityResponse delete(String id) {
         try {
             if (!ObjectUtils.isEmpty(id)) {
@@ -84,37 +82,30 @@ public class UserController {
     }
 
     /**
-     * 修改用户信息
+     * 修改用户信息(管理员)
      */
-    @PostMapping(value = "/user/update")
-    public SecurityResponse update(String id, String nickname, String username, String password, String email, String phone, String validTime, String remark) {
-        try {
-            if (!ObjectUtils.isEmpty(id) && !ObjectUtils.isEmpty(nickname) && !ObjectUtils.isEmpty(username) && ((ObjectUtils.isEmpty(validTime) && !ObjectUtils.isEmpty(password)) || (!ObjectUtils.isEmpty(validTime) && ObjectUtils.isEmpty(password)))) {
-                boolean notExistenceOfUpdateUsername = userService.isNotExistenceOfUpdateUsername(id, username);
-                if (notExistenceOfUpdateUsername) {
-                    userService.updateUserInfo(id, nickname, username, password, email, phone, validTime, remark);
-                    return new SecurityResponse(true, "1", "Update userInfo success!!", "username: " + nickname + " update success!!");
-                } else {
-                    return new SecurityResponse(false, "-1", "Update userInfo failure!!", "username: " + username + " already exists!!");
-                }
-            } else {
-                return new SecurityResponse(false, "-1", "Incomplete information!!", "Incomplete information!!");
-            }
-        } catch (Exception e) {
-            LOG.error("updateUserInfo failure!! error={}", e.getMessage());
-            return new SecurityResponse(false, "-1", "Update userInfo failure!!", "username: " + nickname + " update failure!!");
-        }
+    @PostMapping(value = "/user-manage/update")
+    public SecurityResponse updateUserInfo(String nickname, String username, String email, String phone, String validTime, String remark) {
+        return userService.updateUserInfo(nickname, username, email, phone, validTime, remark);
+    }
+
+    /**
+     * 修改用户密码(管理员)
+     */
+    @PostMapping(value = "/user-manage/updatePassword")
+    public SecurityResponse updateUserPassword(String userId, String username, String password) {
+        return userService.updateUserPassword(userId, username, password);
     }
 
     /**
      * 获取所有用户信息 (分页加模糊查询)
      */
-    @PostMapping(value = "/user/findAll")
+    @PostMapping(value = "/user-manage/findAll")
     public SecurityResponse findAll(String pageNum, String pageSize, String username, String nickname) {
         try {
             if (!ObjectUtils.isEmpty(pageNum) && !ObjectUtils.isEmpty(pageSize)) {
                 SecurityResponse securityResponse = new SecurityResponse();
-                List<Map<String, Object>> userInfoList = userService.findAllUserInfo(pageNum, pageSize, username, nickname, securityResponse);
+                userService.findAllUserInfo(pageNum, pageSize, username, nickname, securityResponse);
                 return securityResponse;
             } else {
                 return new SecurityResponse(false, "-1", "Incomplete information!!", "Incomplete information!!");

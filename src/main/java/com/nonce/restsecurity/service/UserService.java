@@ -4,6 +4,8 @@ import com.nonce.restsecurity.config.UrlResponse;
 import com.nonce.restsecurity.dao.AuthorityUserRepository;
 import com.nonce.restsecurity.util.SecurityResponse;
 import com.nonce.restsecurity.util.TimeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -23,6 +25,8 @@ import java.util.Map;
 @Service
 @Transactional
 public class UserService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Resource
     private AuthorityUserRepository authorityUserRepository;
@@ -175,7 +179,6 @@ public class UserService {
             int uId = Integer.parseInt(userId);
             authorityUserRepository.deleteRolesByUserId(uId);
             authorityUserRepository.deleteUserInfoByUserId(uId);
-            authorityUserRepository.deleteUserCollectionByUserId(uId);
         }
     }
 
@@ -203,7 +206,7 @@ public class UserService {
             authorityUserRepository.updateUserInfoByUserIdExcludePassword(userId, nickname, username, email, phone, validTime, nowTime, remark);
         }
     }
-    
+
     /**
      * 获取所有的用户信息
      */
@@ -247,5 +250,167 @@ public class UserService {
         int userId = Integer.parseInt(id);
         int count = authorityUserRepository.isNotExistenceOfUpdateUsername(userId, username);
         return count == 0;
+    }
+
+    /**
+     * 获取个人信息
+     */
+    public SecurityResponse personalUserInfoGet(String userId, String username) {
+        SecurityResponse securityResponse = new SecurityResponse(false, "-1", "failure!!", "failure!!");
+        try {
+            if (!ObjectUtils.isEmpty(userId) && !ObjectUtils.isEmpty(username)) {
+                Map<String, String> userInfoByUserIdAndUsername = authorityUserRepository.getUserInfoByUserIdAndUsername(userId, username);
+                securityResponse.setSuccess(true);
+                securityResponse.setCode("1");
+                securityResponse.setMessage("personalUserInfoGet success!!");
+                securityResponse.setData(userInfoByUserIdAndUsername);
+                securityResponse.setTotal(1);
+            } else {
+                securityResponse.setMessage("Incomplete information!!");
+                securityResponse.setData("Incomplete information!!");
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            securityResponse.setMessage("personalUserInfoGet failure!!");
+            securityResponse.setData("personalUserInfoGet failure!!");
+        }
+        return securityResponse;
+    }
+
+    /**
+     * 修改个人基本信息
+     */
+    public SecurityResponse personalUserInfoUpdate(String nickname, String username, String email, String phone, String password) {
+        SecurityResponse securityResponse = new SecurityResponse(false, "-1", "failure!!", "failure!!");
+        try {
+            if (!ObjectUtils.isEmpty(username) && !ObjectUtils.isEmpty(password)) {
+                // 密码校验
+                boolean checkPassword = checkPassword(username, password);
+                // 修改个人基本信息
+                if (checkPassword) {
+                    long timeId = System.currentTimeMillis();
+                    String nowTime = TimeUtil.FORMAT.get().format(timeId);
+                    int count = authorityUserRepository.updateUserBasicInfo(nickname, username, email, phone, nowTime);
+                    securityResponse.setSuccess(true);
+                    securityResponse.setCode("1");
+                    securityResponse.setMessage("updateUserBasicInfo success!!");
+                    securityResponse.setData("updateUserBasicInfo success!!");
+                    securityResponse.setTotal(count);
+                } else {
+                    securityResponse.setMessage("The password is wrong!!");
+                    securityResponse.setData("The password is wrong!!");
+                }
+            } else {
+                securityResponse.setMessage("Incomplete information!!");
+                securityResponse.setData("Incomplete information!!");
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            securityResponse.setMessage("updateUserBasicInfo failure!!");
+            securityResponse.setData("updateUserBasicInfo failure!!");
+        }
+        return securityResponse;
+    }
+
+    /**
+     * 密码校验
+     */
+    public boolean checkPassword(String username, String password) {
+        String userPasswordByUsername = authorityUserRepository.getUserPasswordByUsername(username);
+        if (!ObjectUtils.isEmpty(userPasswordByUsername)) {
+            return new BCryptPasswordEncoder().matches(password, userPasswordByUsername);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 修改个人密码
+     */
+    public SecurityResponse personalPasswordUpdateByOldPasswordAndNewPassword(String username, String oldPassword, String newPassword) {
+        SecurityResponse securityResponse = new SecurityResponse(false, "-1", "failure!!", "failure!!");
+        try {
+            if (!ObjectUtils.isEmpty(username) && !ObjectUtils.isEmpty(oldPassword) && !ObjectUtils.isEmpty(newPassword)) {
+                // 密码校验
+                boolean checkPassword = checkPassword(username, oldPassword);
+                if (checkPassword) {
+                    String encode = new BCryptPasswordEncoder().encode(newPassword);
+                    long timeId = System.currentTimeMillis();
+                    String nowTime = TimeUtil.FORMAT.get().format(timeId);
+                    int count = authorityUserRepository.updateUserPasswordByUsername(username, encode, nowTime);
+                    securityResponse.setSuccess(true);
+                    securityResponse.setCode("1");
+                    securityResponse.setMessage("personalPasswordUpdate success!!");
+                    securityResponse.setData("personalPasswordUpdate success!!");
+                    securityResponse.setTotal(count);
+                } else {
+                    securityResponse.setMessage("The original password is wrong!!");
+                    securityResponse.setData("The original password is wrong!!");
+                }
+            } else {
+                securityResponse.setMessage("Incomplete information!!");
+                securityResponse.setData("Incomplete information!!");
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            securityResponse.setMessage("personalPasswordUpdate failure!!");
+            securityResponse.setData("personalPasswordUpdate failure!!");
+        }
+        return securityResponse;
+    }
+
+    /**
+     * 修改用户信息(管理员)
+     */
+    public SecurityResponse updateUserInfo(String nickname, String username, String email, String phone, String validTime, String remark) {
+        SecurityResponse securityResponse = new SecurityResponse(false, "-1", "failure!!", "failure!!");
+        try {
+            if (!ObjectUtils.isEmpty(username)) {
+                long timeId = System.currentTimeMillis();
+                String nowTime = TimeUtil.FORMAT.get().format(timeId);
+                int count = authorityUserRepository.updateUserInfo(nickname, username, email, phone, validTime, nowTime, remark);
+                securityResponse.setSuccess(true);
+                securityResponse.setCode("1");
+                securityResponse.setMessage("updateUserInfo success!!");
+                securityResponse.setData("updateUserInfo success!!");
+                securityResponse.setTotal(count);
+            } else {
+                securityResponse.setMessage("Incomplete information!!");
+                securityResponse.setData("Incomplete information!!");
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            securityResponse.setMessage("updateUserInfo failure!!");
+            securityResponse.setData("updateUserInfo failure!!");
+        }
+        return securityResponse;
+    }
+
+    /**
+     * 修改用户密码(管理员)
+     */
+    public SecurityResponse updateUserPassword(String userId, String username, String password) {
+        SecurityResponse securityResponse = new SecurityResponse(false, "-1", "failure!!", "failure!!");
+        try {
+            if (!ObjectUtils.isEmpty(userId) && !ObjectUtils.isEmpty(username) && !ObjectUtils.isEmpty(password)) {
+                String encode = new BCryptPasswordEncoder().encode(password);
+                long timeId = System.currentTimeMillis();
+                String nowTime = TimeUtil.FORMAT.get().format(timeId);
+                int count = authorityUserRepository.updateUserPassword(userId, username, encode, nowTime);
+                securityResponse.setSuccess(true);
+                securityResponse.setCode("1");
+                securityResponse.setMessage("updateUserPassword success!!");
+                securityResponse.setData("updateUserPassword success!!");
+                securityResponse.setTotal(count);
+            } else {
+                securityResponse.setMessage("Incomplete information!!");
+                securityResponse.setData("Incomplete information!!");
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            securityResponse.setMessage("updateUserPassword failure!!");
+            securityResponse.setData("updateUserPassword failure!!");
+        }
+        return securityResponse;
     }
 }
