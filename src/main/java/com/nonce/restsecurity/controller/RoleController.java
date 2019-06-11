@@ -119,8 +119,9 @@ public class RoleController {
     public SecurityResponse findAll(String pageNum, String pageSize, String roleNameCN) {
         try {
             if (!ObjectUtils.isEmpty(pageNum) && !ObjectUtils.isEmpty(pageSize)) {
-                List<Map<String, Object>> roleInfoList = roleService.findAllRoleInfo(pageNum, pageSize, roleNameCN);
-                return new SecurityResponse(true, "1", "Find all role success!!", roleInfoList);
+                SecurityResponse securityResponse = new SecurityResponse();
+                List<Map<String, Object>> roleInfoList = roleService.findAllRoleInfo(pageNum, pageSize, roleNameCN, securityResponse);
+                return securityResponse;
             } else {
                 return new SecurityResponse(false, "-1", "Incomplete information!!", "Incomplete information!!");
             }
