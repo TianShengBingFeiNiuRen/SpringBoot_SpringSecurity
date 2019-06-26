@@ -5,8 +5,8 @@ server:
       timeout: 6h
 
 spring:
-  main:
-    web-application-type: none
+#  main:
+#    web-application-type: none
   datasource:
     url: ######:3306/block?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8&autoReconnect=true&failOverReadOnly=false
     username: ######
