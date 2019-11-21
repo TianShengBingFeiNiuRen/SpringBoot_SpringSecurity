@@ -61,6 +61,20 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.8</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.6</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

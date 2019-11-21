@@ -23,7 +23,7 @@ spring:
       minimum-idle: 10
   jpa:
     generate-ddl: false
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
     database: mysql
