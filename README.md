@@ -14,7 +14,7 @@
  7. 登录验证中增加额外数据（如ip地址，mac地址，验证码等）。
 
 **maven依赖：**
-```java
+```
 	<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
