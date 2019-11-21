@@ -13,8 +13,8 @@
  6. 菜单管理模块（查询所有菜单、新增菜单、修改菜单、删除菜单）。
  7. 登录验证中增加额外数据（如ip地址，mac地址，验证码等）。
 
-**maven依赖：**
-```
+maven依赖：
+```java
 	<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
