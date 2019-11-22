@@ -1,6 +1,7 @@
 package com.nonce.restsecurity.config;
 
 import com.nonce.restsecurity.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -21,6 +22,7 @@ import java.util.Set;
  * <p>
  * * 动态获取url权限配置
  */
+@Slf4j
 @Component
 public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
@@ -35,7 +37,7 @@ public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocat
         Set<ConfigAttribute> set = new HashSet<>();
         // 获取请求地址
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        System.out.println("requestUrl >> " + requestUrl);
+        log.info("requestUrl >> {}", requestUrl);
         List<String> menuUrl = userService.findAllMenuUrl();
         for (String url : menuUrl) {
             if (antPathMatcher.match(url, requestUrl)) {

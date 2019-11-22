@@ -2,6 +2,7 @@ package com.nonce.restsecurity.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
  * <p>
  * 登录认证
  */
+@Slf4j
 @Component
 public class SelfAuthenticationProvider implements AuthenticationProvider {
 
@@ -28,13 +30,13 @@ public class SelfAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
+        log.info("authentication >> {}", JSONObject.toJSONString(authentication, SerializerFeature.WriteMapNullValue));
         CustomWebAuthenticationDetails customWebAuthenticationDetails = (CustomWebAuthenticationDetails) authentication.getDetails(); //获取身份验证详细信息
 //        String remoteAddress = customWebAuthenticationDetails.getRemoteAddress();
 //        String sessionId = customWebAuthenticationDetails.getSessionId();
 //        System.out.println("remoteAddress >> " + remoteAddress);
 //        System.out.println("sessionId >> " + sessionId);
 //        System.out.println("details >> " + JSONObject.toJSONString(customWebAuthenticationDetails, SerializerFeature.WriteMapNullValue));
-        System.out.println("authentication >> " + JSONObject.toJSONString(authentication, SerializerFeature.WriteMapNullValue));
         System.out.println("macAddress >> " + customWebAuthenticationDetails.getMacAddress()); //用于校验mac地址白名单
 
         String username = (String) authentication.getPrincipal(); //表单输入的用户名

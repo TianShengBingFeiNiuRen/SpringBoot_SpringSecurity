@@ -1,5 +1,6 @@
 package com.nonce.restsecurity.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -18,12 +19,14 @@ import java.util.Collection;
  * <p>
  * 权限判断
  */
+@Slf4j
 @Component
 public class SelfAccessDecisionManager implements AccessDecisionManager {
 
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
-        System.out.println("collection=" + collection);
+
+        log.info("principal:{} collection:{}", authentication.getPrincipal().toString(), collection);
         for (ConfigAttribute configAttribute : collection) {
             // 当前请求需要的权限
             String needRole = configAttribute.getAttribute();
@@ -40,7 +43,7 @@ public class SelfAccessDecisionManager implements AccessDecisionManager {
             }
             // 当前用户所具有的权限
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            System.out.println("authorities=" + authorities);
+            log.info("authorities: {}", authorities);
             for (GrantedAuthority grantedAuthority : authorities) {
                 if (grantedAuthority.getAuthority().equals(needRole)) {
                     return;
