@@ -31,7 +31,7 @@ public class NIOUtil {
         String string = null;
         RandomAccessFile randomAccessFile = null;
         try {
-            randomAccessFile = new RandomAccessFile(path, "rws");
+            randomAccessFile = new RandomAccessFile(path, "rw");
             FileChannel channel = randomAccessFile.getChannel();
 
             ByteBuffer allocate = ByteBuffer.allocate(1024 << 4); //16KB缓冲区
@@ -76,7 +76,7 @@ public class NIOUtil {
         RandomAccessFile randomAccessFile = null;
         try {
             Files.deleteIfExists(Paths.get(path)); //目标文件存在先删除
-            randomAccessFile = new RandomAccessFile(path, "rws");
+            randomAccessFile = new RandomAccessFile(path, "rw");
             FileChannel channel = randomAccessFile.getChannel();
             channel.write(ByteBuffer.wrap(text.getBytes(StandardCharsets.UTF_8)));
             channel.close();
