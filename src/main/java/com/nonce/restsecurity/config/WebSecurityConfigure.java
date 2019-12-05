@@ -65,8 +65,8 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/connect").permitAll() //无条件允许访问
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
-                .anyRequest()
-                .authenticated() //其他url需要身份认证
+                .anyRequest() //其他任何请求
+                .authenticated() //都需要身份认证
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
