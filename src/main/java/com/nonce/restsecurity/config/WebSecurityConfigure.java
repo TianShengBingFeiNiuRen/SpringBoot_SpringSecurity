@@ -106,6 +106,5 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint) //未登录时返回JSON数据
                 .accessDeniedHandler(accessDeniedHandler); //无权访问处理器
-
     }
 }
