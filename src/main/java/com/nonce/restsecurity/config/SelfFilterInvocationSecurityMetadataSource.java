@@ -48,10 +48,6 @@ public class SelfFilterInvocationSecurityMetadataSource implements FilterInvocat
                 });
             }
         }
-        if (antPathMatcher.match("/common/**", requestUrl)) {
-            SecurityConfig securityConfig = new SecurityConfig("ROLE_common");
-            set.add(securityConfig);
-        }
         if (ObjectUtils.isEmpty(set)) {
             return SecurityConfig.createList("ROLE_LOGIN");
         }
