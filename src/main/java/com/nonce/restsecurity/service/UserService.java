@@ -210,15 +210,12 @@ public class UserService {
     /**
      * 获取所有的用户信息
      */
-    public List<Map<String, Object>> findAllUserInfo(String pageNum, String pageSize, String username, String nickname, SecurityResponse securityResponse) {
+    public void findAllUserInfo(String pageNum, String pageSize, String username, String nickname, SecurityResponse securityResponse) {
         int rowNum = Integer.parseInt(pageNum);
         int size = Integer.parseInt(pageSize);
         int row = (rowNum - 1) * size;
-        String uName = "%" + username + "%";
-        String nName = "%" + nickname + "%";
-        System.out.println("username >> " + username);
         List<Map<String, Object>> list = new ArrayList<>();
-        List<Map<String, Object>> allUserInfo = authorityUserRepository.findAllUserInfo(row, size, uName, nName);
+        List<Map<String, Object>> allUserInfo = authorityUserRepository.findAllUserInfo(row, size, username, nickname);
         for (Map<String, Object> userInfo : allUserInfo) {
             int userId = (int) userInfo.get("id");
             List<Map<String, Object>> roleInfo = authorityUserRepository.findRoleInfoByUserId(userId);
@@ -234,13 +231,12 @@ public class UserService {
             map.put("roleList", roleInfo);
             list.add(map);
         }
-        int userInfoSize = authorityUserRepository.findAllUserInfoSize(uName, nName);
+        int userInfoSize = authorityUserRepository.findAllUserInfoSize(username, nickname);
         securityResponse.setSuccess(true);
         securityResponse.setCode("1");
         securityResponse.setMessage("Find all user success!!");
         securityResponse.setData(list);
         securityResponse.setTotal(userInfoSize);
-        return list;
     }
 
     /**

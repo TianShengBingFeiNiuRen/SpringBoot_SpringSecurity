@@ -106,10 +106,10 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "UPDATE authority_user SET nickname=?2, username=?3, email=?4, phone=?5, valid_time=?6, update_time=?7, remark=?8 WHERE id=?1")
     int updateUserInfoByUserIdExcludePassword(int id, String nickname, String username, String email, String phone, String validTime, String updateTime, String remark);
 
-    @Query(nativeQuery = true, value = "SELECT id AS id, username AS username, password AS password, nickname AS nickname, email AS email, phone AS phone, valid_time AS validTime, remark AS remark FROM authority_user WHERE username LIKE ?3 AND nickname LIKE ?4 LIMIT ?1,?2")
+    @Query(nativeQuery = true, value = "SELECT id AS id, username AS username, password AS password, nickname AS nickname, email AS email, phone AS phone, valid_time AS validTime, remark AS remark FROM authority_user WHERE username LIKE %?3% AND nickname LIKE %?4% LIMIT ?1,?2")
     List<Map<String, Object>> findAllUserInfo(int pageNum, int pageSize, String username, String nickname);
 
-    @Query(nativeQuery = true, value = "SELECT COUNT(id) FROM authority_user WHERE username LIKE ?1 AND nickname LIKE ?2")
+    @Query(nativeQuery = true, value = "SELECT COUNT(id) FROM authority_user WHERE username LIKE %?1% AND nickname LIKE %?2%")
     int findAllUserInfoSize(String username, String nickname);
 
     @Query(nativeQuery = true, value = "SELECT id AS id, role_name AS roleName, role_name_CN AS roleNameCN, remark AS remark FROM authority_role WHERE id IN (SELECT role_id FROM authority_user_role WHERE user_id=?1)")
