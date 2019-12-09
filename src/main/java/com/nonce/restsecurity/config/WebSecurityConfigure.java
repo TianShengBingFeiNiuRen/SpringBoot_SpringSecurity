@@ -5,7 +5,9 @@ import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
@@ -49,6 +51,11 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource; //身份验证详细信息源
 
     @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/common/**"); //无条件允许访问
+    }
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider); //自定义登录认证
     }
@@ -56,14 +63,10 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable(); //关闭csrf验证
-
-        http.httpBasic().authenticationEntryPoint(authenticationEntryPoint) //未登录时返回JSON数据
+        http.csrf().disable() //关闭csrf验证(防止跨站请求伪造攻击)
 
                 // 定制请求的授权规则
-                .and()
                 .authorizeRequests()
-                .antMatchers("/connect").permitAll() //无条件允许访问
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
                 .anyRequest() //其他任何请求
                 .authenticated() //都需要身份认证
@@ -85,8 +88,8 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 //                .failureForwardUrl("/error") //登录失败后的url(post,前后端不分离)
                 .successHandler(authenticationSuccessHandler) //验证成功处理器(前后端分离)
                 .failureHandler(authenticationFailureHandler) //验证失败处理器(前后端分离)
+                .authenticationDetailsSource(authenticationDetailsSource) //身份验证详细信息源(登录验证中增加额外字段)
                 .permitAll()
-                .authenticationDetailsSource(authenticationDetailsSource) //身份验证详细信息源
 
                 // 开启自动配置的注销功能
                 .and()
@@ -94,10 +97,15 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/nonceLogout") //自定义注销请求路径
 //                .logoutSuccessUrl("/bye") //注销成功后的url(前后端不分离)
                 .logoutSuccessHandler(logoutSuccessHandler) //注销成功处理器(前后端分离)
-                .permitAll();
+                .permitAll()
 
-//        http.sessionManagement().invalidSessionUrl("/session/invalid"); //session失效时间
+//                .and()
+//                .addFilterBefore()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //将session策略设置为无状态的
+                .and().exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint) //未登录时返回JSON数据
+                .accessDeniedHandler(accessDeniedHandler); //无权访问处理器
 
-        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler); //无权访问处理器
     }
 }
