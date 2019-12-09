@@ -7,6 +7,10 @@ server:
 spring:
 #  main:
 #    web-application-type: none
+#  security:
+#    user:
+#      name: security_admin #设置默认登录用户名
+#      password: security_admin #设置默认登录密码 不设置会在控制台打印出，默认用户名是user
   datasource:
     url: ######:3306/block?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8&autoReconnect=true&failOverReadOnly=false
     username: ######
