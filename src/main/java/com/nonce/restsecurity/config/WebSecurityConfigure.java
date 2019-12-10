@@ -36,7 +36,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     private UrlLogoutSuccessHandler logoutSuccessHandler; //自定义注销成功处理器
 
     @Resource
-    private UrlAccessDeniedHandler accessDeniedHandler; //自定义无权访问处理
+    private UrlAccessDeniedHandler accessDeniedHandler; //自定义无权访问处理器
 
     @Resource
     private SelfAuthenticationProvider authenticationProvider; //自定义登录认证
@@ -63,10 +63,17 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable() //关闭csrf验证(防止跨站请求伪造攻击)
+        // 关闭csrf验证(防止跨站请求伪造攻击)
+        http.csrf().disable();
 
-                // 定制请求的授权规则
-                .authorizeRequests()
+        // 未登录时返回JSON数据:状态码401
+        http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+
+        // 无权访问时返回JSON数据:状态码403
+        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+
+        // url权限认证处理
+        http.antMatcher("/**").authorizeRequests()
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
                 .anyRequest() //其他任何请求
                 .authenticated() //都需要身份认证
@@ -77,34 +84,25 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                         o.setAccessDecisionManager(accessDecisionManager); //权限判断
                         return o;
                     }
-                })
+                });
 
-                // 开启自动配置的登录功能
-                .and()
-                .formLogin() //开启登录
+        // 将session策略设置为无状态的,通过token进行权限认证
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // 开启自动配置的登录功能
+        http.formLogin() //开启登录
 //                .loginPage("/login") //登录页面(前后端不分离)
                 .loginProcessingUrl("/nonceLogin") //自定义登录请求路径(post)
 //                .successForwardUrl("/index") //登录成功后的url(post,前后端不分离)
 //                .failureForwardUrl("/error") //登录失败后的url(post,前后端不分离)
                 .successHandler(authenticationSuccessHandler) //验证成功处理器(前后端分离)
                 .failureHandler(authenticationFailureHandler) //验证失败处理器(前后端分离)
-                .authenticationDetailsSource(authenticationDetailsSource) //身份验证详细信息源(登录验证中增加额外字段)
-                .permitAll()
+                .authenticationDetailsSource(authenticationDetailsSource); //身份验证详细信息源(登录验证中增加额外字段)
 
-                // 开启自动配置的注销功能
-                .and()
-                .logout() //用户注销, 清空session
+        // 开启自动配置的注销功能
+        http.logout() //用户注销, 清空session
                 .logoutUrl("/nonceLogout") //自定义注销请求路径
 //                .logoutSuccessUrl("/bye") //注销成功后的url(前后端不分离)
-                .logoutSuccessHandler(logoutSuccessHandler) //注销成功处理器(前后端分离)
-                .permitAll()
-
-//                .and()
-//                .addFilterBefore()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //将session策略设置为无状态的
-                .and().exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint) //未登录时返回JSON数据
-                .accessDeniedHandler(accessDeniedHandler); //无权访问处理器
+                .logoutSuccessHandler(logoutSuccessHandler); //注销成功处理器(前后端分离)
     }
 }
