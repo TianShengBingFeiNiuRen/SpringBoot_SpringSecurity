@@ -41,6 +41,7 @@ public class SelfAccessDecisionManager implements AccessDecisionManager {
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
             log.info("authorities: {}", authorities);
             for (GrantedAuthority grantedAuthority : authorities) {
+                // 包含其中一个角色即可访问
                 if (grantedAuthority.getAuthority().equals(needRole)) {
                     return;
                 }
