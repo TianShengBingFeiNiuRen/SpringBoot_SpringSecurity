@@ -75,7 +75,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
         // url权限认证处理
         http.antMatcher("/**").authorizeRequests()
 //                .antMatchers("/security/user/**").hasRole("ADMIN") //需要ADMIN角色才可以访问
-//                .antMatchers("/connect").hasIpAddress("127.0.0.1") //只有固定ip[127.0.0.1]可以访问'/connect'接口
+//                .antMatchers("/connect").hasIpAddress("127.0.0.1") //只有ip[127.0.0.1]可以访问'/connect'接口
                 .anyRequest() //其他任何请求
                 .authenticated() //都需要身份认证
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
