@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author Andon
  * @date 2019/3/20
  * <p>
- * 无权访问
+ * 自定义权限不足处理器：返回状态码403
  */
 @Component
 public class UrlAccessDeniedHandler implements AccessDeniedHandler {

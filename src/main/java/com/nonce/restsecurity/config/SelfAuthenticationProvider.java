@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @author Andon
  * @date 2019/3/20
  * <p>
- * 登录认证
+ * 自定义登录认证
  */
 @Slf4j
 @Component
@@ -37,7 +37,7 @@ public class SelfAuthenticationProvider implements AuthenticationProvider {
 //        System.out.println("remoteAddress >> " + remoteAddress);
 //        System.out.println("sessionId >> " + sessionId);
 //        System.out.println("details >> " + JSONObject.toJSONString(customWebAuthenticationDetails, SerializerFeature.WriteMapNullValue));
-        System.out.println("macAddress >> " + customWebAuthenticationDetails.getMacAddress()); //用于校验mac地址白名单
+        System.out.println("macAddress >> " + customWebAuthenticationDetails.getMacAddress()); //用于校验mac地址白名单(这里只是打个比方，登录验证中增加的额外字段)
 
         String username = (String) authentication.getPrincipal(); //表单输入的用户名
         String password = (String) authentication.getCredentials(); //表单输入的密码

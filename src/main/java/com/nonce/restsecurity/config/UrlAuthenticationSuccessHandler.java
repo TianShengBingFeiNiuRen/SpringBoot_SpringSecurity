@@ -16,8 +16,8 @@ import java.util.Map;
 /**
  * @author Andon
  * @date 2019/3/20
- *
- * 登录成功
+ * <p>
+ * 自定义登录成功处理器：返回状态码200
  */
 @Component
 public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {

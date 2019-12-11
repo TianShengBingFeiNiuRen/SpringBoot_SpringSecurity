@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author Andon
  * @date 2019/3/20
  * <p>
- * 用户未登录
+ * 自定义未登录时：返回状态码401
  */
 @SuppressWarnings("Duplicates")
 @Component

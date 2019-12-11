@@ -17,7 +17,7 @@ import java.util.Collection;
  * @author Andon
  * @date 2019/3/20
  * <p>
- * 权限判断
+ * 自定义权限判断管理器
  */
 @Slf4j
 @Component

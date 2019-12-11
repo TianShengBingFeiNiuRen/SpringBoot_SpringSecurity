@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author Andon
  * @date 2019/3/20
  * <p>
- * 注销成功
+ * 自定义注销成功处理器：返回状态码200
  */
 @Component
 public class UrlLogoutSuccessHandler implements LogoutSuccessHandler {

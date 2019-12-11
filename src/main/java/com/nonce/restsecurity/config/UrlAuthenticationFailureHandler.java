@@ -13,8 +13,8 @@ import java.io.IOException;
 /**
  * @author Andon
  * @date 2019/3/20
- *
- * 登录失败
+ * <p>
+ * 自定义登录失败处理器：返回状态码402
  */
 @SuppressWarnings("Duplicates")
 @Component
@@ -25,11 +25,11 @@ public class UrlAuthenticationFailureHandler implements AuthenticationFailureHan
 
         UrlResponse response = new UrlResponse();
         response.setSuccess(false);
-        response.setCode("401");
+        response.setCode("402");
         response.setMessage("Login Failure!");
         response.setData(null);
 
-        httpServletResponse.setStatus(401);
+        httpServletResponse.setStatus(402);
         httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));
     }
 }

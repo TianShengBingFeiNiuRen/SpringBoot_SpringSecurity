@@ -24,19 +24,19 @@ import javax.servlet.http.HttpServletRequest;
 public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private UrlAuthenticationEntryPoint authenticationEntryPoint; //自定义未登录时JSON数据
+    private UrlAuthenticationEntryPoint authenticationEntryPoint; //自定义未登录时：返回状态码401
 
     @Resource
-    private UrlAuthenticationSuccessHandler authenticationSuccessHandler; //自定义登录成功处理器
+    private UrlAuthenticationSuccessHandler authenticationSuccessHandler; //自定义登录成功处理器：返回状态码200
 
     @Resource
-    private UrlAuthenticationFailureHandler authenticationFailureHandler; //自定义登录失败处理器
+    private UrlAuthenticationFailureHandler authenticationFailureHandler; //自定义登录失败处理器：返回状态码402
 
     @Resource
-    private UrlLogoutSuccessHandler logoutSuccessHandler; //自定义注销成功处理器
+    private UrlAccessDeniedHandler accessDeniedHandler; //自定义权限不足处理器：返回状态码403
 
     @Resource
-    private UrlAccessDeniedHandler accessDeniedHandler; //自定义无权访问处理器
+    private UrlLogoutSuccessHandler logoutSuccessHandler; //自定义注销成功处理器：返回状态码200
 
     @Resource
     private SelfAuthenticationProvider authenticationProvider; //自定义登录认证
@@ -45,7 +45,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     private SelfFilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource; //动态获取url权限配置
 
     @Resource
-    private SelfAccessDecisionManager accessDecisionManager; //权限判断
+    private SelfAccessDecisionManager accessDecisionManager; //自定义权限判断管理器
 
     @Resource
     private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource; //身份验证详细信息源
@@ -66,10 +66,10 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
         // 关闭csrf验证(防止跨站请求伪造攻击)
         http.csrf().disable();
 
-        // 未登录时返回JSON数据:状态码401
+        // 未登录时：返回状态码401
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
 
-        // 无权访问时返回JSON数据:状态码403
+        // 无权访问时返回：返回状态码403
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
         // url权限认证处理
@@ -95,14 +95,14 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/nonceLogin") //自定义登录请求路径(post)
 //                .successForwardUrl("/index") //登录成功后的url(post,前后端不分离)
 //                .failureForwardUrl("/error") //登录失败后的url(post,前后端不分离)
-                .successHandler(authenticationSuccessHandler) //验证成功处理器(前后端分离)
-                .failureHandler(authenticationFailureHandler) //验证失败处理器(前后端分离)
+                .successHandler(authenticationSuccessHandler) //验证成功处理器(前后端分离)：返回状态码200
+                .failureHandler(authenticationFailureHandler) //验证失败处理器(前后端分离)：返回状态码402
                 .authenticationDetailsSource(authenticationDetailsSource); //身份验证详细信息源(登录验证中增加额外字段)
 
         // 开启自动配置的注销功能
         http.logout() //用户注销, 清空session
                 .logoutUrl("/nonceLogout") //自定义注销请求路径
 //                .logoutSuccessUrl("/bye") //注销成功后的url(前后端不分离)
-                .logoutSuccessHandler(logoutSuccessHandler); //注销成功处理器(前后端分离)
+                .logoutSuccessHandler(logoutSuccessHandler); //注销成功处理器(前后端分离)：返回状态码200
     }
 }
