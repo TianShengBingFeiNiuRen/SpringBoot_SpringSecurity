@@ -93,6 +93,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
         http.formLogin() //开启登录
 //                .loginPage("/login") //登录页面(前后端不分离)
                 .loginProcessingUrl("/nonceLogin") //自定义登录请求路径(post)
+                .usernameParameter("username").passwordParameter("password") //自定义登录用户名密码属性名,默认为username和password
 //                .successForwardUrl("/index") //登录成功后的url(post,前后端不分离)
 //                .failureForwardUrl("/error") //登录失败后的url(post,前后端不分离)
                 .successHandler(authenticationSuccessHandler) //验证成功处理器(前后端分离)：返回状态码200
