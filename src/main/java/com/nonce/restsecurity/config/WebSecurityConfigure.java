@@ -69,7 +69,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
         // 未登录时：返回状态码401
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
 
-        // 无权访问时返回：返回状态码403
+        // 无权访问时：返回状态码403
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
         // url权限认证处理
