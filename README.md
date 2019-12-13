@@ -26,4 +26,4 @@ maven依赖：
 
 **CSDN**: [**link**](https://blog.csdn.net/weixin_39792935/article/details/84541194).
 
-*友情链接*:[***SpringBoot整合SpringSecurity+JWT实现单点的登录***](https://blog.csdn.net/weixin_39792935/article/details/103528008)
+*友情链接：*[***SpringBoot整合SpringSecurity+JWT实现单点的登录***](https://blog.csdn.net/weixin_39792935/article/details/103528008)
