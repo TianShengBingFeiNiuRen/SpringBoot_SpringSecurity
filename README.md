@@ -1,4 +1,4 @@
-# 前后端分离 SpringBoot整合SpringSecurity权限控制（动态拦截url）
+# 前后端分离 SpringBoot整合SpringSecurity权限控制
 
 > 	Spring Security是一个功能强大且可高度自定义的身份验证和访问控制框架。它是保护基于Spring的应用程序的事实上的标准。
 
@@ -26,4 +26,4 @@ maven依赖：
 
 **CSDN**: [**link**](https://blog.csdn.net/weixin_39792935/article/details/84541194).
 
-*友情链接：*[***SpringBoot整合SpringSecurity+JWT实现单点的登录***](https://blog.csdn.net/weixin_39792935/article/details/103528008)
+*友情链接：*[***SpringBoot整合SpringSecurity+JWT实现单点登录***](https://blog.csdn.net/weixin_39792935/article/details/103528008)
