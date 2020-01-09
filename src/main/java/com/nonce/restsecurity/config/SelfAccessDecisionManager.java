@@ -26,7 +26,12 @@ public class SelfAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
 
-        log.info("principal:{} collection:{}", authentication.getPrincipal().toString(), collection);
+        // 当前请求需要的权限
+        log.info("collection:{}", collection);
+        // 当前用户所具有的权限
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        log.info("principal:{} authorities:{}", authentication.getPrincipal().toString(), authorities);
+
         for (ConfigAttribute configAttribute : collection) {
             // 当前请求需要的权限
             String needRole = configAttribute.getAttribute();
@@ -38,8 +43,6 @@ public class SelfAccessDecisionManager implements AccessDecisionManager {
                 }
             }
             // 当前用户所具有的权限
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            log.info("authorities: {}", authorities);
             for (GrantedAuthority grantedAuthority : authorities) {
                 // 包含其中一个角色即可访问
                 if (grantedAuthority.getAuthority().equals(needRole)) {
