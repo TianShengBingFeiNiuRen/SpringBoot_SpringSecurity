@@ -76,7 +76,7 @@ public class MenuController {
     public SecurityResponse update(String id, String url, String menuName, String parentId, String remark, String urlPre) {
         try {
             if (!ObjectUtils.isEmpty(id) && !ObjectUtils.isEmpty(url) && !ObjectUtils.isEmpty(menuName) && !ObjectUtils.isEmpty(parentId)) {
-                boolean notExistenceOfUpdateMenuName = menuService.isNotExistenceOfUpdateMenuName(id, menuName);
+                boolean notExistenceOfUpdateMenuName = menuService.isNotExistenceOfUpdateMenuName(id, menuName, parentId);
                 if (notExistenceOfUpdateMenuName) {
                     menuService.updateMenuInfo(id, url, menuName, parentId, remark, urlPre);
                     return new SecurityResponse(true, "1", "Update menuInfo success!!", "menuName: " + menuName + " update success!!");
