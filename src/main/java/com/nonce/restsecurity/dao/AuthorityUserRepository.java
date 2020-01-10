@@ -181,8 +181,8 @@ public interface AuthorityUserRepository extends JpaRepository<AuthorityUser, In
     @Query(nativeQuery = true, value = "SELECT COUNT(role_name) FROM authority_role WHERE id!=?1 AND role_name=?2")
     int isNotExistenceOfUpdateRoleName(int roleId, String roleName);
 
-    @Query(nativeQuery = true, value = "SELECT COUNT(menu_name) FROM authority_menu WHERE id!=?1 AND menu_name=?2")
-    int isNotExistenceOfUpdateMenuName(int menuId, String menuName);
+    @Query(nativeQuery = true, value = "SELECT COUNT(menu_name) FROM authority_menu WHERE id!=?1 AND menu_name=?2 AND parent_id=?3")
+    int isNotExistenceOfUpdateMenuName(int menuId, String menuName, String parentId);
 
     @Query(nativeQuery = true, value = "SELECT id FROM authority_menu WHERE parent_id=?1")
     List<Integer> selectChildrenMenuIds(int parentId);
