@@ -95,9 +95,9 @@ public class MenuService {
     /**
      * 修改的菜单名是否存在 不存在 返回true
      */
-    public boolean isNotExistenceOfUpdateMenuName(String id, String menuName) {
+    public boolean isNotExistenceOfUpdateMenuName(String id, String menuName, String parentId) {
         int menuId = Integer.parseInt(id);
-        int count = authorityUserRepository.isNotExistenceOfUpdateMenuName(menuId, menuName);
+        int count = authorityUserRepository.isNotExistenceOfUpdateMenuName(menuId, menuName, parentId);
         return count == 0;
     }
 }
