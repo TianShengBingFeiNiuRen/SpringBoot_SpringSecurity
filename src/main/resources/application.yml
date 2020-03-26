@@ -32,4 +32,3 @@ spring:
       ddl-auto: none
     database: mysql
     open-in-view: true
-    
