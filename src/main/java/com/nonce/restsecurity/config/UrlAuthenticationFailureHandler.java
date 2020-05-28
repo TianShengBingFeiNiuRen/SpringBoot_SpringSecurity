@@ -26,7 +26,7 @@ public class UrlAuthenticationFailureHandler implements AuthenticationFailureHan
         UrlResponse response = new UrlResponse();
         response.setSuccess(false);
         response.setCode("402");
-        response.setMessage("Login Failure!");
+        response.setMessage(e.getMessage());
         response.setData(null);
 
         httpServletResponse.setStatus(402);
