@@ -25,7 +25,7 @@ public class UrlAccessDeniedHandler implements AccessDeniedHandler {
         UrlResponse response = new UrlResponse();
         response.setSuccess(false);
         response.setCode("403");
-        response.setMessage("Need Authorities!");
+        response.setMessage(e.getMessage());
         response.setData(null);
 
         httpServletResponse.setStatus(403);
