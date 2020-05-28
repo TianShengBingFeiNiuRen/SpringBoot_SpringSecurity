@@ -26,7 +26,7 @@ public class UrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
         UrlResponse response = new UrlResponse();
         response.setSuccess(false);
         response.setCode("401");
-        response.setMessage("Need Authorities!");
+        response.setMessage(e.getMessage());
         response.setData(null);
 
         httpServletResponse.setStatus(401);
