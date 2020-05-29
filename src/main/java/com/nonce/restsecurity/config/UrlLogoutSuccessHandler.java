@@ -28,6 +28,8 @@ public class UrlLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setMessage("Logout Success!!");
         response.setData(null);
 
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("text/html;charset=UTF-8");
         httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));
     }
 }
