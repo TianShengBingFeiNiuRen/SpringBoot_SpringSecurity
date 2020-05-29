@@ -30,6 +30,8 @@ public class UrlAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setData(null);
 
         httpServletResponse.setStatus(401);
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("text/html;charset=UTF-8");
         httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));
     }
 }
