@@ -39,6 +39,8 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 
         response.setData(userInfo);
 
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("text/html;charset=UTF-8");
         httpServletResponse.getWriter().write(GsonUtil.GSON.toJson(response));
     }
 }
