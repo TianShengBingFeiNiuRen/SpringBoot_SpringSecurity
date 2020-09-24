@@ -1,10 +1,13 @@
 package com.nonce.restsecurity.util;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -19,19 +22,18 @@ import java.util.Map;
 
 /**
  * @author Andon
- * @date 2019/4/3
+ * 2020/9/24
  */
-@SuppressWarnings("Duplicates")
 public class HttpClientUtil {
 
     // 编码格式,发送编码格式统一用UTF-8
     private static final String ENCODING = "UTF-8";
 
     // 设置连接超时时间,单位毫秒
-    private static final int CONNECT_TIMEOUT = 10 * 60 * 1000;
+    private static final int CONNECT_TIMEOUT = 3 * 60 * 1000;
 
     // 请求响应超时时间,单位毫秒
-    private static final int SOCKET_TIMEOUT = 10 * 60 * 1000;
+    private static final int SOCKET_TIMEOUT = 3 * 60 * 1000;
 
     /**
      * 发送get请求;带请求头和请求参数
@@ -120,6 +122,44 @@ public class HttpClientUtil {
     }
 
     /**
+     * 发送post请求;json格式参数
+     */
+    public static String doPostJson(String url, Map<String, String> headers, Map<String, String> params) throws IOException {
+        // 创建httpClient对象
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
+        // 创建http对象
+        HttpPost httpPost = new HttpPost(url);
+
+        // 设置请求超时时间及响应超时时间
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(CONNECT_TIMEOUT).setSocketTimeout(SOCKET_TIMEOUT).build();
+        httpPost.setConfig(requestConfig);
+
+        // 设置请求头
+        /*httpPost.setHeader("Cookie", "");
+        httpPost.setHeader("Connection", "keep-alive");
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+        httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
+        httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");*/
+        // 设置请求头
+        packageHeader(headers, httpPost);
+
+        // 封装请求参数为json格式
+        packageParamJson(params, httpPost);
+
+        // 执行请求获取响应体并释放资源
+        return getHttpClientResult(httpClient, httpPost);
+    }
+
+    /**
+     * 发送post请求;json格式参数
+     */
+    public static String doPostJson(String url, Map<String, String> params) throws IOException {
+        return doPostJson(url, null, params);
+    }
+
+    /**
      * 发送put请求;带请求头和请求参数
      */
     public static String doPut(String url, Map<String, String> headers, Map<String, String> params) throws IOException {
@@ -193,6 +233,17 @@ public class HttpClientUtil {
             List<NameValuePair> nameValuePairs = new ArrayList<>();
             params.forEach((key, value) -> nameValuePairs.add(new BasicNameValuePair(key, value)));
             httpMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs, ENCODING));
+        }
+    }
+
+    /**
+     * 封装请求参数为json格式
+     */
+    private static void packageParamJson(Map<String, String> params, HttpEntityEnclosingRequestBase httpMethod) {
+        if (!ObjectUtils.isEmpty(params)) {
+            String json = JSONObject.toJSONString(params);
+            StringEntity stringEntity = new StringEntity(json, ContentType.APPLICATION_JSON);
+            httpMethod.setEntity(stringEntity);
         }
     }
 
