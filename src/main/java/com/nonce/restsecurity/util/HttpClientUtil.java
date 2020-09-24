@@ -124,7 +124,7 @@ public class HttpClientUtil {
     /**
      * 发送post请求;json格式参数
      */
-    public static String doPostJson(String url, Map<String, String> headers, Map<String, String> params) throws IOException {
+    public static String doPostJson(String url, Map<String, String> headers, Map<String, Object> params) throws IOException {
         // 创建httpClient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -155,7 +155,7 @@ public class HttpClientUtil {
     /**
      * 发送post请求;json格式参数
      */
-    public static String doPostJson(String url, Map<String, String> params) throws IOException {
+    public static String doPostJson(String url, Map<String, Object> params) throws IOException {
         return doPostJson(url, null, params);
     }
 
@@ -239,7 +239,7 @@ public class HttpClientUtil {
     /**
      * 封装请求参数为json格式
      */
-    private static void packageParamJson(Map<String, String> params, HttpEntityEnclosingRequestBase httpMethod) {
+    private static void packageParamJson(Map<String, Object> params, HttpEntityEnclosingRequestBase httpMethod) {
         if (!ObjectUtils.isEmpty(params)) {
             String json = JSONObject.toJSONString(params);
             StringEntity stringEntity = new StringEntity(json, ContentType.APPLICATION_JSON);
